@@ -1,0 +1,32 @@
+{
+  "name": "backend-apis",
+  "version": "1.0.0",
+  "description": "atlas-backend-apis",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AtlasKE-Chain/atlas-backend-apis.git"
+  },
+  "author": "AtlasKe",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.4",
+    "nodemon": "^3.0.2",
+    "twilio": "^4.20.1"
+  },
+  "bugs": {
+    "url": "https://github.com/AtlasKE-Chain/atlas-backend-apis/issues"
+  },
+  "homepage": "https://github.com/AtlasKE-Chain/atlas-backend-apis#readme"
+}
