@@ -32,12 +32,12 @@ const sendOTP = asyncHandler(async(req,res,next)=>{
 const verifyOTP = asyncHandler(async(req,res,next)=>{
     const {countryCode,phoneNumber,otp} = req.body;
   try{
-    const verificationResponse = await client.verify.v2.services(TWILIO_SERVICE_ID).verifications.create({
+    const verificationResponse = await client.verify.v2.services(TWILIO_SERVICE_ID).verificationChecks.create({
         to: `+${countryCode}${phoneNumber}`,
         code: otp,
         channel: "sms"
     });
-    res.status(200).send(`OTP send successfully!: ${JSON.stringify(verificationResponse)}`)
+    res.status(200).send(`OTP send successfully!: ${JSON.stringify(verificationResponse.status)}`)
 
   }catch(error){
     res.status(error?.status || 400).send(error?.message || 'something Went wrong')
