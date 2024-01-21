@@ -65,7 +65,7 @@ const loginUser= asyncHandler(async (req, res) => {
                     id:user._id
                 }
             },process.env.ACCESS_TOKEN_SECERT,{expiresIn:"5m"})
-            res.status(200).json({accestoken});
+            res.status(200).json({user: user,accestoken:accestoken});
         }else{
             res.status(400).json("Confirm your credentials");
         }};
