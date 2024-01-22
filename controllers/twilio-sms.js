@@ -16,7 +16,7 @@ const sendOTP = asyncHandler(async(req,res,next)=>{
         to: `+${countryCode}${phoneNumber}`,
         channel: "sms",
     });
-    res.status(200).send(`OTP send successfully!: ${JSON.stringify(otpResponse)}`)
+    res.status(200).json({ message: 'OTP sent successfully!', otpResponse });
 
   }catch(error){
     res.status(error?.status || 400).send(error?.message || 'something Went wrong')
