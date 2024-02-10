@@ -65,7 +65,7 @@ const loginUser= asyncHandler(async (req, res) => {
                     role:user.role,
                     id:user._id
                 }
-            },process.env.ACCESS_TOKEN_SECERT,{expiresIn:"3m"})
+            },process.env.ACCESS_TOKEN_SECERT,{expiresIn:"15m"})
 
             const refreshToken = jwt.sign({
               user:{
@@ -73,9 +73,13 @@ const loginUser= asyncHandler(async (req, res) => {
                   role:user.role,
                   id:user._id
               }
-          },process.env.ACCESS_TOKEN_SECERT,{expiresIn:"5m"})
-          res.cookie("accesToken",accestoken,{maxAge:6000})
-          res.cookie("refreshToken",refreshToken,{maxAge:60000000,httpOnly:true,secure:true,sameSite:"none"});
+          },process.env.ACCESS_TOKEN_SECERT,{expiresIn:"1d"})
+          
+          res.cookie("refreshToken",refreshToken,
+          {maxAge:24*60*60*1000,
+            httpOnly:true,
+            secure:false, // o be changed on production to true
+            sameSite:"None"});
             res.status(200).json({userdata:user,accesstokens:accestoken});
         }else{
             res.status(400).json("Confirm your credentials");
@@ -153,33 +157,34 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 // Register a user
 const refresh = asyncHandler(async (req, res) => {
   const cookies = req.cookies;
+  
+  
   if (!cookies?.refreshToken) return res.status(401).json({ message: "Unauthorizeda" });
 
   const refreshToken = cookies.refreshToken;
 
-  try {
-      const decoded = await jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET);
-
+  jwt.verify(
+    refreshToken,
+    process.env.ACCESS_TOKEN_SECERT,
+    asyncHandler(async(err,decoded)=>{
+      if(err) return res.status(403).json({message:"Forbidden"})
+      
       const foundUser = await User.findOne({ phoneNumber: decoded.user.phoneNumber });
-
       if (!foundUser) return res.status(401).json({ message: "Unauthorizedb" });
-
       const accessToken = jwt.sign({
-          user: {
-              phoneNumber: foundUser.phoneNumber,
-              role: foundUser.role,
-              id: foundUser._id
-          }
-      }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "3m" });
+        user: {
+            phoneNumber: foundUser.phoneNumber,
+            role: foundUser.role,
+            id: foundUser._id
+        }
+    },process.env.ACCESS_TOKEN_SECERT, { expiresIn: "15m" });
+    res.status(200).json({ userdata: foundUser, accessToken: accessToken });
 
-      res.status(200).json({ userdata: foundUser, accessToken: accessToken });
-  } catch (error) {
-      console.error("Error during token refresh:", error);
-      if (error.name === 'TokenExpiredError') {
-          return res.status(403).json({ message: "Token expired" });
-      }
-      return res.status(500).json({ message: "Internal Server Error" });
-  }
+
+    })
+  )
+
+  
 });
 
 
@@ -187,7 +192,9 @@ const logout =async (req,res)=>{
   const cookies = req.cookies;
   if(!cookies.refreshToken) return res.status(204) //no content
 
-  res.clearCookie("refresToken",{httpOnly:true,sameSite: 'None',secure:true})
+  res.clearCookie("refresToken",{httpOnly:true,
+    sameSite: 'None',
+    secure:true})
   res.json({message:"Cookie cleared"});
 }
 module.exports = { registerUser,loginUser,currentUser,updateUserProfile,logout,refresh };
