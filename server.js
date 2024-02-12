@@ -5,12 +5,14 @@ const twiliootp = require("./routes/otpVerification/route")
 
 require('dotenv').config();
 const bodyParser = require("body-parser");
+const cookieParser  = require("cookie-parser")
 const App =  express();
 const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 // Configure bodyparser to handle post requests
 App.use(bodyParser.urlencoded({extended: false}));
 App.use(bodyParser.json());
+App.use(cookieParser());
 
 (async () => {
     try {
