@@ -1,5 +1,5 @@
 const express = require("express");
-const connectToDatabase = require("./utils/dbConnect");
+const connectToDatabase = require("./config/dbConnect");
 const userRoute = require("./routes/userRoutes/routes");
 const twiliootp = require("./routes/otpVerification/route")
 
