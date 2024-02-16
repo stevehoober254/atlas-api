@@ -2,6 +2,7 @@ const express = require("express");
 const connectToDatabase = require("./config/dbConnect");
 const userRoute = require("./routes/userRoutes/routes");
 const twiliootp = require("./routes/otpVerification/route")
+const africaStakling = require("./routes/africastalking/route")
 
 require('dotenv').config();
 const bodyParser = require("body-parser");
@@ -32,6 +33,7 @@ App.use((req, res, next) => {
 });
 App.use("/api",userRoute);
 App.use("/api/otp",twiliootp);
+App.use("/api/otp/africa",africaStakling)
 App.listen(PORT,()=>{
     console.log(`Listening on port ${PORT}`)
 })
