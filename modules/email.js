@@ -28,3 +28,9 @@ const getPasswordResetURL = (user, token) =>
   
     return { from, to, subject, html }
   }
+
+  module.exports ={
+    resetPasswordTemplate,
+    transpoter,
+    getPasswordResetURL
+  }
