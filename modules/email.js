@@ -3,8 +3,8 @@ const nodemailer = require("nodemailer")
 const transpoter = nodemailer.createTransport({
     service: "gmail",
     auth:{
-        user:"",
-        pass:"" ,
+        user:"mauriceblake37@gmail.com",
+        pass:"gxzr rbqe jueq hlcm" ,
     }
 })
 
@@ -17,7 +17,7 @@ const getPasswordResetURL = (user, token) =>
     const to = user.email
     const subject = "🌻 Atlas Password Reset 🌻"
     const html = `
-    <p>Hey ${user.displayName || user.email},</p>
+    <p>Hey ${user.fullName || user.email},</p>
     <p>We heard that you lost your Atlas password. Sorry about that!</p>
     <p>But don’t worry! You can use the following link to reset your password:</p>
     <a href=${url}>${url}</a>
