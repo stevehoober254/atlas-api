@@ -12,6 +12,7 @@ const App =  express();
 const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 // Configure bodyparser to handle post requests
+App.use(cors({ origin: ["http://localhost:3000", "https://atlas-ke.net"] }));
 App.use(bodyParser.urlencoded({extended: false}));
 App.use(bodyParser.json());
 App.use(cookieParser());
