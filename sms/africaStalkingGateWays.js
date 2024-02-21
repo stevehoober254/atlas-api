@@ -2,7 +2,7 @@
 require('dotenv').config();
 const options ={
     apiKey: process.env.AFRICA_STALKING_API_KEY,
-    username: "sandbox"
+    username: "Atlas"
 }
 const AfricaStalking = require("africastalking")(options);
 
