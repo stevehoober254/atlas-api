@@ -3,7 +3,7 @@ const otplib = require("otplib")
 const secret = process.env.OTPLIBSECRET_KEY //"YesyouYeyYouYesYou" //otplib.authenticator.generateSecret();
 
 otplib.authenticator.options={
-    step:3000,
+    step:60,
     window:1
 };
 

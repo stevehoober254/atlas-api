@@ -15,7 +15,7 @@ const sendOTP = asyncHandler(async(req,res,next)=>{
  //console.log(isoPhoneNo)
     const smsOptions ={
         to: [`+254${phoneNumber}`],
-        message: `Welcome to Atlas your verification code is ${otpCode}. This code expires in 3 minutes`
+        message: `Welcome to Atlas your verification code is ${otpCode}. This code expires in 1 minutes`
     };
 
     console.log(smsOptions);
