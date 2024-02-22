@@ -4,6 +4,7 @@ const userRoute = require("./routes/userRoutes/routes");
 const twiliootp = require("./routes/otpVerification/route");
 const africaStakling = require("./routes/africastalking/route");
 const resetSendPassword = require("./routes/passwordreset/route");
+const resetPasswordByPhoneNumber = require("./routes/passwordresetphonewithNumber/route")
 
 require('dotenv').config();
 const bodyParser = require("body-parser");
@@ -39,6 +40,7 @@ App.use("/api", userRoute);
 App.use("/api/otp", twiliootp);
 App.use("/api/otp/africa", africaStakling);
 App.use("/api/resetPassword", resetSendPassword);
+App.use("/api/resetPasswordPhoneNumber", resetPasswordByPhoneNumber);
 
 // Start the server
 App.listen(PORT, () => {
