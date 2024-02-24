@@ -27,11 +27,11 @@ const {Schema} = mongoose;
             unique:false,
             required:false,
         },
-        userProfile: {
-            type: Schema.Types.ObjectId,
-            ref: "Profile",
-            required: false,
-          },
+        // userProfile: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: "Profile",
+        //     required: false,
+        //   },
 
     },
     {timestamps:true}

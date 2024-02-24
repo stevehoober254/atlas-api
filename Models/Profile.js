@@ -1,14 +1,14 @@
-// profile.js
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const profileSchema = new Schema(
   {
-    // user: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      unique: true // Ensures each user has only one profile
+    },
     gender: {
       type: String,
       enum: ["male", "female", "other"],
@@ -26,27 +26,22 @@ const profileSchema = new Schema(
       type: String,
       required: true,
     },
-    // document
     identification: {
-      //data: Buffer,
-      type:String,
-      
+      type: String,
       required: false,
     },
     kraCertificate: {
-      //data: Buffer,
-      type:String,
+      type: String,
       required: false,
     },
     ethereumAddress: {
       type: String,
-      unique: true, // Set to true for uniqueness
+      unique: true,
       required: true,
     },
     phoneNumber: {
       type: String,
       required: true,
-      
     },
     address: {
       type: String,
