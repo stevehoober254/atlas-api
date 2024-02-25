@@ -23,7 +23,7 @@ const userEnlistProperty = async (userId, propertyDetails) => {
 
 const getAllEnlistedProperties =async()=>{
 
-    const allListedProperties = await new EnlistProperty.find()
+    const allListedProperties =  await  EnlistProperty.find({})
 
     return allListedProperties;
 

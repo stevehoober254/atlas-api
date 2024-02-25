@@ -76,6 +76,7 @@ const getAllPropertiesEnlisted = asyncHandler(async(req,res)=>{
 
 
     }catch(err){
+        console.log(err)
         return res.status(401).json("Failed to fetch properties")
 
     }
@@ -85,5 +86,5 @@ const getAllPropertiesEnlisted = asyncHandler(async(req,res)=>{
 
 module.exports ={
     enlistProperty,
-    getAllEnlistedProperties
+    getAllPropertiesEnlisted
 }

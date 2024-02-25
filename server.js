@@ -4,6 +4,7 @@ const userRoute = require("./routes/userRoutes/routes");
 const twiliootp = require("./routes/otpVerification/route");
 const africaStakling = require("./routes/africastalking/route");
 const resetSendPassword = require("./routes/passwordreset/route");
+const registryRoute  = require("./routes/registrar/route")
 const resetPasswordByPhoneNumber = require("./routes/passwordresetphonewithNumber/route")
 
 require('dotenv').config();
@@ -37,6 +38,7 @@ App.use(cookieParser());
 
 // Define routes
 App.use("/api", userRoute);
+App.use("/api/registry", registryRoute);
 App.use("/api/otp", twiliootp);
 App.use("/api/otp/africa", africaStakling);
 App.use("/api/resetPassword", resetSendPassword);

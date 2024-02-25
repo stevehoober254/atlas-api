@@ -128,8 +128,8 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
   res.status(200).json({message:"update successively"})
   }catch(error){
     console.log(error)
-    res.status(400)
-    throw new Error("Failed to Update details",error)
+    res.status(400).json("Failed to Update details");
+    
     
   }
   
