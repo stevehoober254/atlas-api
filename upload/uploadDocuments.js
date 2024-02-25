@@ -2,12 +2,13 @@ const {cloudinary} = require("../config/cloudinary")
 
 
 
-const uploadLandTitle = async(image)=>{
-    const result = await cloudinary.uploader.upload(image);
-
-    return result;
+const handleUploads = async(file)=>{
+    const result = await cloudinary.uploader.upload(file, {
+        resource_type: "auto",
+      });
+      return result;
 
 
 }
 
-module.exports = {uploadLandTitle}
+module.exports = {handleUploads}
