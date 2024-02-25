@@ -21,6 +21,15 @@ const userEnlistProperty = async (userId, propertyDetails) => {
     }
 };
 
+const getAllEnlistedProperties =async()=>{
+
+    const allListedProperties = await new EnlistProperty.find()
+
+    return allListedProperties;
+
+}
+
 module.exports ={
-    userEnlistProperty
+    userEnlistProperty,
+    getAllEnlistedProperties
 }

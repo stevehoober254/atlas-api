@@ -60,9 +60,13 @@ const enlistPropertySchema = new Schema(
       type: String,
       required: false,
     },
+    registrationSection: {
+        type: String,
+        required: false,
+      },
     status: {
         type: String,
-        enum: ["waiting", "verified", "rejected"],
+        enum: ["waiting","processing", "verified", "rejected"],
         default: "waiting",
       },
   },
