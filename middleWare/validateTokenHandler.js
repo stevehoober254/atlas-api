@@ -5,6 +5,7 @@ const validateToken = asyncHandler(async (req, res, next) => {
   let token;
   
   let authHeader = req.headers.Authorization || req.headers.authorization;
+  
   if ( !authHeader.startsWith("Bearer")){
     return res.status(401).json({message: "Unauthrized"})
   }
@@ -13,7 +14,8 @@ const validateToken = asyncHandler(async (req, res, next) => {
   if (authHeader && authHeader.startsWith("Bearer")) {
     token = authHeader.split(" ")[1];
     if (!token) {
-      res.status(401).json({message: "User is not authorized or token is missing"});
+      return res.status(401).json({message: "User is not authorized or token is missing"});
+      
       
     }
     jwt.verify(token, 
@@ -34,4 +36,4 @@ const validateToken = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = validateToken;
+module.exports = {validateToken};
