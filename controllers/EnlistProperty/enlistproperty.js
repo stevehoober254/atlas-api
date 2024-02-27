@@ -1,10 +1,12 @@
 const asyncHandler = require("express-async-handler")
 const {getUserbyPhoneNumber} = require("../../services/userServices")
 const {userEnlistProperty,getAllEnlistedProperties} = require("../../services/enlistPropertyServices")
+const {handleUploads,uploadImage}= require("../../upload/uploadDocuments")
+const {convertBase64} = require("../../hooks/fileupload")
 
 const enlistProperty = asyncHandler(async(req,res)=>{
     const {phoneNumber,
-        propertyImage,
+        propertyImageBase64,
         landRefNumber,
         currentOwner,
         acquisitionDate,
@@ -18,6 +20,9 @@ const enlistProperty = asyncHandler(async(req,res)=>{
         adjudicationSection,
         landrateBalance
     } = req.body;
+    
+  const  propertyImage = await uploadImage(propertyImageBase64)
+  console.log("prorr",propertyImage)
 
     try{
         const user =  await getUserbyPhoneNumber(phoneNumber);
