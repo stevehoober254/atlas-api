@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+
+
 const enlistPropertySchema = new Schema(
   {
     user: {
@@ -12,31 +14,32 @@ const enlistPropertySchema = new Schema(
       type: String,
       required: true,
     },
-    landRefNumber: {
+    propertyTitleDeed: {
+      type: String,
+      required: true,
+    },
+    parcelNumber: {
       type: String,
       required: false,
     },
-    currentOwner: {
+    ownerName: {
       type: String,
       required: true,
     },
-    acquisitionDate: {
-      type: Date,
-      required: true,
-    },
+    
     leaseType: {
       type: String,
       required: false,
     },
-    countyOfDomicile: {
+    county: {
       type: String,
       required: false,
     },
-    encumbrances: {
+    encumbrance: {
       type: String,
       required: true,
     },
-    propertySize: {
+    sizeHa: {
       type: String,
       required: true,
     },
@@ -44,19 +47,16 @@ const enlistPropertySchema = new Schema(
       type: String,
       required: false,
     },
-    acquisitionType: {
+    acquistionType: {
       type: String,
       required: false,
     },
-    userType: {
+    titleLR: {
       type: String,
       required: false,
     },
-    adjudicationSection: {
-      type: String,
-      required: false,
-    },
-    landrateBalance: {
+   
+    landRateBalance: {
       type: String,
       required: false,
     },

@@ -6,22 +6,23 @@ const {convertBase64} = require("../../hooks/fileupload")
 
 const enlistProperty = asyncHandler(async(req,res)=>{
     const {phoneNumber,
-        propertyImageBase64,
-        landRefNumber,
-        currentOwner,
-        acquisitionDate,
-        leaseType,
-        countyOfDomicile,
-        encumbrances,
-        propertySize,
-        blockNumber,
-        acquisitionType,
-        userType,
-        adjudicationSection,
-        landrateBalance
+        titleLR,
+         county,
+         registrationSection,
+         blockNumber,
+         parcelNumber,
+         sizeHa,
+         ownerName,
+         leaseType,
+         acquistionType,
+         encumbrance,
+         landRateBalance,
+         propertyTitleDeed,
+         propertyImage,
     } = req.body;
     
-  const  propertyImage = await uploadImage(propertyImageBase64)
+  const  propertyImageURL= await uploadImage(propertyImage)
+  const  propertyTitleDeedURL = await uploadImage(propertyTitleDeed)
   console.log("prorr",propertyImage)
 
     try{
@@ -29,21 +30,35 @@ const enlistProperty = asyncHandler(async(req,res)=>{
         if(!user){
             return  res.status(401).json("user Does not exists")
         }
+        // phoneNumber:phoneNumber,
+        // titleLR:titleLR,
+        //  county:county,
+        //  registrationSection:registrationSection,
+        //  blockNumber:blockNumber,
+        //  parcelNumber:parcelNumber,
+        //  sizeHa:sizeHa,
+        //  ownerName:ownerName,
+        //  leaseType:leaseType,
+        //  acquistionType:acquistionType,
+        //  encumbrance:encumbrance,
+        //  landRateBalance:landRateBalance,
+        //  propertyTitleDeed:propertyTitleDeed,
+        //  propertyImage:propertyImage
         const propertyDetails={
            
-            propertyImage:propertyImage,
-        landRefNumber:landRefNumber,
-        currentOwner:currentOwner,
-        acquisitionDate:acquisitionDate,
-        leaseType:leaseType,
-        countyOfDomicile:countyOfDomicile,
-        encumbrances:encumbrances,
-        propertySize:propertySize,
-        blockNumber:blockNumber,
-        acquisitionType:acquisitionType,
-        userType:userType,
-        adjudicationSection:adjudicationSection,
-        landrateBalance:landrateBalance
+            titleLR:titleLR,
+             county:county,
+             registrationSection:registrationSection,
+             blockNumber:blockNumber,
+             parcelNumber:parcelNumber,
+             sizeHa:sizeHa,
+             ownerName:ownerName,
+             leaseType:leaseType,
+             acquistionType:acquistionType,
+             encumbrance:encumbrance,
+             landRateBalance:landRateBalance,
+             propertyTitleDeed:propertyTitleDeedURL,
+             propertyImage:propertyImageURL,
 
         }
 
