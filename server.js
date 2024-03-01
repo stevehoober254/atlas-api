@@ -26,11 +26,12 @@ const PORT = process.env.PORT || 3000;
 })();
 
 // CORS configuration
-const allowedOrigins = ["http://localhost:3000", "https://atlas-ke.net"];
+const allowedOrigins = ["http://localhost:3000", "https://atlas-ke.net","http://localhost:3000/", "https://atlas-ke.net/"];
 App.use(cors({
     origin: allowedOrigins,
     exposedHeaders: 'Set-Cookie'
 }));
+App.options('*', cors());
 
 // Body parsing middleware
 App.use(bodyParser.urlencoded({ extended: false }));
