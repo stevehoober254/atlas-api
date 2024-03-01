@@ -1,5 +1,5 @@
-const User = require('../Models/User');
-const Profile = require("../Models/Profile")
+const User = require('../../Models/User');
+const Profile = require("../../Models/Profile")
 
 const createUser = async(passwordHash,fullName,role,phoneNumber)=>{
     const data = new User({

@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler")
-const {getUserbyPhoneNumber} = require("../../services/userServices")
-const {userEnlistProperty,getAllEnlistedProperties} = require("../../services/enlistPropertyServices")
+const {getUserbyPhoneNumber} = require("../../services/user/userServices")
+const {userEnlistProperty,getAllEnlistedProperties} = require("../../services/properties/admin/enlistPropertyServices")
 const {handleUploads,uploadImage}= require("../../upload/uploadDocuments")
 const {convertBase64} = require("../../hooks/fileupload")
 
@@ -92,7 +92,27 @@ const getAllPropertiesEnlisted = asyncHandler(async(req,res)=>{
             return res.status(401).json("no property enlisted")
         }
 
-        return res.status(201).json({data:allProperties})
+        return res.status(201).json({allProperties})
+
+
+    }catch(err){
+        console.log(err)
+        return res.status(401).json("Failed to fetch properties")
+
+    }
+})
+
+
+const getAllRegistryPropertiesEnlisted = asyncHandler(async(req,res)=>{
+
+    try{
+        const allProperties = await getAllEnlistedProperties();
+
+        if (!allProperties){
+            return res.status(401).json("no property enlisted")
+        }
+
+        return res.status(201).json({allProperties})
 
 
     }catch(err){
@@ -106,5 +126,6 @@ const getAllPropertiesEnlisted = asyncHandler(async(req,res)=>{
 
 module.exports ={
     enlistProperty,
-    getAllPropertiesEnlisted
+    getAllPropertiesEnlisted,
+    getAllRegistryPropertiesEnlisted
 }

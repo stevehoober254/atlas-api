@@ -1,4 +1,4 @@
-const EnlistProperty = require("../Models/EnlistProperty");
+const EnlistProperty = require("../../../Models/EnlistProperty");
 
 const userEnlistProperty = async (userId, propertyDetails) => {
     try {
@@ -21,6 +21,7 @@ const userEnlistProperty = async (userId, propertyDetails) => {
     }
 };
 
+//admin
 const getAllEnlistedProperties =async()=>{
 
     const allListedProperties =  await  EnlistProperty.find({})
@@ -28,6 +29,10 @@ const getAllEnlistedProperties =async()=>{
     return allListedProperties;
 
 }
+
+
+
+
 
 module.exports ={
     userEnlistProperty,

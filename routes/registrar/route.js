@@ -9,7 +9,8 @@ const {getAllPropertiesEnlisted} = require("../../controllers/EnlistProperty/enl
 
 
 
-router.get('/getAllProperties',validateToken,onlyRegistrarOrAdmin,getAllPropertiesEnlisted);
+//router.get('/getAllProperties',validateToken,onlyRegistrarOrAdmin,getAllPropertiesEnlisted);
+router.get('/getAllProperties',getAllPropertiesEnlisted);
 
 
 
