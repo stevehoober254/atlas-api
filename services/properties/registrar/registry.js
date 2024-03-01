@@ -2,7 +2,7 @@ const EnlistProperty = require("../../../Models/EnlistProperty");
 
 
 //registrar
-const getAllEnlistedProperties =async()=>{
+const getAllRegistryEnlistedProperties =async()=>{
 
     const allListedProperties =  await  EnlistProperty.find({})
 
@@ -16,5 +16,5 @@ const getAllEnlistedProperties =async()=>{
 
 module.exports ={
    
-    getAllEnlistedProperties
+    getAllRegistryEnlistedProperties
 }

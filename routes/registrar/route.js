@@ -4,13 +4,13 @@ const router = express.Router();
 
 const {validateToken} = require("../../middleWare/validateTokenHandler");
 const {onlyRegistrarOrAdmin} = require("../../middleWare/onlyRegistrarOradmin")
-const {getAllPropertiesEnlisted} = require("../../controllers/EnlistProperty/enlistproperty")
+const {getAllRegistryPropertiesEnlisted} = require("../../controllers/EnlistProperty/enlistproperty")
 
 
 
 
 //router.get('/getAllProperties',validateToken,onlyRegistrarOrAdmin,getAllPropertiesEnlisted);
-router.get('/getAllProperties',getAllPropertiesEnlisted);
+router.get('/getAllProperties',getAllRegistryPropertiesEnlisted);
 
 
 
