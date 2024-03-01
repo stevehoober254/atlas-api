@@ -93,7 +93,7 @@ const getAllPropertiesEnlisted = asyncHandler(async(req,res)=>{
             return res.status(401).json("no property enlisted")
         }
 
-        return res.status(201).json({allProperties})
+        return res.status(201).json(allProperties)
 
 
     }catch(err){
@@ -113,7 +113,7 @@ const getAllRegistryPropertiesEnlisted = asyncHandler(async(req,res)=>{
             return res.status(401).json("no property enlisted")
         }
 
-        return res.status(201).json({allProperties})
+        return res.status(201).json(allProperties)
 
 
     }catch(err){
