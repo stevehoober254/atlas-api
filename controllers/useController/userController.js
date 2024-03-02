@@ -5,13 +5,13 @@ const asyncHandler = require("express-async-handler")
 const jwt = require("jsonwebtoken")
 
 // Import the User model and isValidPhoneNumber function
-const User = require('../Models/User');
+const User = require('../../Models/User');
 
-const {isValidPhoneNumber} = require('../hooks/email-phoneNumber');
+const {isValidPhoneNumber} = require('../../hooks/email-phoneNumber');
 const AccessToken = require("twilio/lib/jwt/AccessToken");
-const { hashPassword,compareHashPassword } = require("../hooks/hashPassword");
-const {generateAccessToken,generateRefreshToken} = require("../hooks/generateJWTtokens")
-const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber} = require("../services/user/userServices")
+const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword");
+const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
+const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber} = require("../../services/user/userServices")
 
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {

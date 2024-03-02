@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../../Models/User")
+const User = require("../../../Models/User")
 
 // const mongoose = require('mongoose');
-const {isValidEmail,isValidPhoneNumber} = require("../../hooks/email-phoneNumber");
-const { registerUser, loginUser, currentUser, updateUserProfile,logout,refresh } = require("../../controllers/userController");
-const {validateToken} = require("../../middleWare/validateTokenHandler");
-const {enlistProperty} = require("../../controllers/EnlistProperty/enlistproperty")
+const {isValidEmail,isValidPhoneNumber} = require("../../../hooks/email-phoneNumber");
+const { registerUser, loginUser, currentUser, updateUserProfile,logout,refresh } = require("../../../controllers/useController/userController");
+const {validateToken} = require("../../../middleWare/validateTokenHandler");
+const {enlistProperty} = require("../../../controllers/EnlistProperty/enlistproperty")
 
 
 

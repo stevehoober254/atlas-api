@@ -9,7 +9,7 @@ const generateAccessToken =async(userPhoneNumber,userRole,userId)=>{
                 role: userRole,
                 id: userId
             }
-        },process.env.ACCESS_TOKEN_SECERT,{expiresIn:"15m"})
+        },process.env.ACCESS_TOKEN_SECERT,{expiresIn:"1d"}) // to change to 15 mins on production
 
         return accestoken;
 

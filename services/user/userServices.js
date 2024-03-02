@@ -23,6 +23,10 @@ const getUserProfile =async(phoneNumber)=>{
 
 }
 
+
+
+
+
 const createUserProfile = async(gender,kraPin,idNumber,ethereumAddress,newPhoneNumber)=>{
     const newUserProfile = new Profile({
         gender: gender,
