@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler")
 
 
-const {getAllUserEnlistedProperties} = require("../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing} = require("../../services/properties/public/properties");
 
 const {validateToken} = require("../../middleWare/validateTokenHandler")
 
@@ -26,7 +26,23 @@ const getAllUserProperty = asyncHandler(async(req,res)=>{
 
 })
 
+//verify proprty to processing
+
+
+const verifyForProcessing = asyncHandler(async(req,res)=>{
+ const {property_id} = req.body;
+
+ const updatePropertyStatus = await verifyPropertyForProcessing(property_id)
+ if(!updatePropertyStatus){
+    res.status(401).json("Failed to verify ")
+ }
+
+ res.status(200).json("Succeful verified");
+    
+})
+
 
 module.exports={
-    getAllUserProperty
+    getAllUserProperty,
+    verifyForProcessing
 }
