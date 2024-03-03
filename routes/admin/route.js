@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {validateToken} = require("../../middleWare/validateTokenHandler");
 const {onlyRegistrarOrAdmin} = require("../../middleWare/onlyRegistrarOradmin")
-const {getAllPropertiesEnlisted} = require("../../controllers/EnlistProperty/enlistproperty")
+const {getAllPropertiesEnlisted} = require("../../controllers/Properties/admin/propertyController")
 
 
 

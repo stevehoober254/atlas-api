@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {validateToken} = require("../../../middleWare/validateTokenHandler")
-const {getAllUserProperty,verifyForProcessing} = require("../../../controllers/useController/propertiesController")
+const {getAllUserProperty,verifyForProcessing} = require("../../../controllers/Properties/public/propertyController")
 
 router.get("/userProperties",validateToken,getAllUserProperty);
 

@@ -1,9 +1,10 @@
 const asyncHandler = require("express-async-handler")
-const {getUserbyPhoneNumber} = require("../../services/user/userServices")
-const {userEnlistProperty,getAllEnlistedProperties} = require("../../services/properties/admin/enlistPropertyServices")
-const {getAllRegistryEnlistedProperties} = require("../../services/properties/registrar/registry")
-const {handleUploads,uploadImage}= require("../../upload/uploadDocuments")
-const {convertBase64} = require("../../hooks/fileupload")
+const {getUserbyPhoneNumber} = require("../../../services/user/userServices")
+const {userEnlistProperty,getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
+const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
+const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
+const {convertBase64} = require("../../../hooks/fileupload")
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing} = require("../../../services/properties/public/properties");
 
 const enlistProperty = asyncHandler(async(req,res)=>{
     const {phoneNumber,
@@ -82,51 +83,48 @@ const enlistProperty = asyncHandler(async(req,res)=>{
 
 })
 
-//view all enlisted property
-
-const getAllPropertiesEnlisted = asyncHandler(async(req,res)=>{
-
-    try{
-        const allProperties = await getAllEnlistedProperties();
-
-        if (!allProperties){
-            return res.status(401).json("no property enlisted")
-        }
-
-        return res.status(201).json(allProperties)
-
-
-    }catch(err){
-        console.log(err)
-        return res.status(401).json("Failed to fetch properties")
-
-    }
-})
-
-
-const getAllRegistryPropertiesEnlisted = asyncHandler(async(req,res)=>{
+const getAllUserProperty = asyncHandler(async(req,res)=>{
+    
 
     try{
-        const allProperties = await getAllRegistryEnlistedProperties();
-
-        if (!allProperties){
-            return res.status(401).json("no property enlisted")
-        }
-
-        return res.status(201).json(allProperties)
-
+        const properties = await getAllUserEnlistedProperties(req.user.id);
+        return res.status(201).json(properties);
 
     }catch(err){
-        console.log(err)
-        return res.status(401).json("Failed to fetch properties")
-
+        console.log("error",err)
+      return   res.status(401).json({message:"Failed to fetch user property"})
     }
+
+
+    
+
+
+
+
+
 })
+
+//verify proprty to processing
+
+
+const verifyForProcessing = asyncHandler(async(req,res)=>{
+ const {property_id} = req.body;
+
+ const updatePropertyStatus = await verifyPropertyForProcessing(property_id)
+ if(!updatePropertyStatus){
+    res.status(401).json("Failed to verify ")
+ }
+
+ res.status(200).json("Succeful verified");
+    
+})
+
 
 
 
 module.exports ={
     enlistProperty,
-    getAllPropertiesEnlisted,
-    getAllRegistryPropertiesEnlisted
+    getAllUserProperty,
+    verifyForProcessing
+    
 }

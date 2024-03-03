@@ -6,7 +6,7 @@ const User = require("../../../Models/User")
 const {isValidEmail,isValidPhoneNumber} = require("../../../hooks/email-phoneNumber");
 const { registerUser, loginUser, currentUser, updateUserProfile,logout,refresh } = require("../../../controllers/useController/userController");
 const {validateToken} = require("../../../middleWare/validateTokenHandler");
-const {enlistProperty} = require("../../../controllers/EnlistProperty/enlistproperty")
+const {enlistProperty} = require("../../../controllers/Properties/public/propertyController")
 
 
 
