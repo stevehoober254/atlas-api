@@ -53,7 +53,7 @@ const enlistPropertySchema = new Schema(
     },
     titleLR: {
       type: String,
-      required: false,
+      required: true,
     },
    
     landRateBalance: {
