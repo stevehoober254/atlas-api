@@ -42,7 +42,7 @@ const checkIfPropertyExists = async (titleLR) => {
         return !!property; // Convert to boolean (true if property exists, false otherwise)
     } catch (error) {
         console.error("Error checking property existence:", error);
-        throw error; // Re-throw the error for the caller to handle
+        // throw error; // Re-throw the error for the caller to handle
     }
 }
 
