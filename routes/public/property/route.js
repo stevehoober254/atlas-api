@@ -9,6 +9,6 @@ router.get("/userProperties",validateToken,getAllUserProperty);
 router.post("/verify",validateToken,verifyForProcessing)
 //put validateToken in production
 router.post("/enlistProperty",enlistProperty)
-s
+
 
 module.exports = router
