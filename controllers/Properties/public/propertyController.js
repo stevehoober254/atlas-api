@@ -1,10 +1,10 @@
 const asyncHandler = require("express-async-handler")
 const {getUserbyPhoneNumber} = require("../../../services/user/userServices")
-const {userEnlistProperty,getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
+const {getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
-const {getAllUserEnlistedProperties,verifyPropertyForProcessing} = require("../../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists} = require("../../../services/properties/public/properties");
 
 const enlistProperty = asyncHandler(async(req,res)=>{
     const {phoneNumber,
@@ -32,20 +32,7 @@ const enlistProperty = asyncHandler(async(req,res)=>{
         if(!user){
             return  res.status(401).json("user Does not exists")
         }
-        // phoneNumber:phoneNumber,
-        // titleLR:titleLR,
-        //  county:county,
-        //  registrationSection:registrationSection,
-        //  blockNumber:blockNumber,
-        //  parcelNumber:parcelNumber,
-        //  sizeHa:sizeHa,
-        //  ownerName:ownerName,
-        //  leaseType:leaseType,
-        //  acquistionType:acquistionType,
-        //  encumbrance:encumbrance,
-        //  landRateBalance:landRateBalance,
-        //  propertyTitleDeed:propertyTitleDeed,
-        //  propertyImage:propertyImage
+        
         const propertyDetails={
            
             titleLR:titleLR,
@@ -63,14 +50,21 @@ const enlistProperty = asyncHandler(async(req,res)=>{
              propertyImage:propertyImageURL,
 
         }
+        const property= await checkIfPropertyExists(titleLR)
+
+        if(property){
+            return res.status(201).json("Property  Exists")
+
+        }
 
       await   userEnlistProperty(user._id, propertyDetails)
     .then(enlistedProperty => {
-        console.log("Enlisted property:", enlistedProperty);
-        return res.status(201).json("Property  enlisted Successful")
+        
+        
+        return res.status(200).json("Property  enlisted Successful")
     })
     .catch(error => {
-        console.error("Error enlisting property:", error);
+        
         return res.status(401).json("Failed to EnlistProperty");
     });
 

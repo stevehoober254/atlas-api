@@ -53,6 +53,7 @@ const enlistPropertySchema = new Schema(
     },
     titleLR: {
       type: String,
+      unique:true,
       required: true,
     },
    

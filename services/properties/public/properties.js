@@ -1,5 +1,28 @@
 const EnlistProperty = require("../../../Models/EnlistProperty");
 
+
+//user enlistProperty
+
+const userEnlistProperty = async (userId, propertyDetails) => {
+    try {
+        // Merge userId and propertyDetails into a single object
+        const enlistData = {
+            user: userId,
+            ...propertyDetails
+        };
+
+        // Create an instance of EnlistProperty with the merged data
+        const enlist = new EnlistProperty(enlistData);
+
+        // Save the enlistment to the database
+        const enlistedProperty = await enlist.save();
+        return enlistedProperty;
+    } catch (error) {
+        // Handle error
+        console.error("Error enlisting property:", error);
+        throw error;
+    }
+};
 //public
 const getAllUserEnlistedProperties = async (user_id) => {
     
@@ -12,6 +35,11 @@ const getAllUserEnlistedProperties = async (user_id) => {
     }
 };
 
+//checkIfPropertyExists
+const checkIfPropertyExists = async(titleLR)=>{
+    const property = await EnlistProperty.find({titleLR:titleLR}).exec();
+    return property;
+}
 
 //verify property for processing
 
@@ -32,5 +60,7 @@ const verifyPropertyForProcessing = async(property_id)=>{
 
 module.exports = {
     getAllUserEnlistedProperties,
-    verifyPropertyForProcessing
+    verifyPropertyForProcessing,
+    checkIfPropertyExists,
+    userEnlistProperty
 };
