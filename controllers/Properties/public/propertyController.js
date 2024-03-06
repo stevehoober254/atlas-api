@@ -6,76 +6,61 @@ const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
 const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists} = require("../../../services/properties/public/properties");
 
-const enlistProperty = asyncHandler(async(req,res)=>{
-    const {phoneNumber,
+const enlistProperty = asyncHandler(async (req, res) => {
+    const {
+        phoneNumber,
         titleLR,
-         county,
-         registrationSection,
-         blockNumber,
-         parcelNumber,
-         sizeHa,
-         ownerName,
-         leaseType,
-         acquistionType,
-         encumbrance,
-         landRateBalance,
-         propertyTitleDeed,
-         propertyImage,
+        county,
+        registrationSection,
+        blockNumber,
+        parcelNumber,
+        sizeHa,
+        ownerName,
+        leaseType,
+        acquistionType,
+        encumbrance,
+        landRateBalance,
+        propertyTitleDeed,
+        propertyImage,
     } = req.body;
-    
-  const  propertyImageURL= await uploadImage(propertyImage)
-  const  propertyTitleDeedURL = await uploadImage(propertyTitleDeed)
-  console.log("prorr",propertyImage)
 
-    try{
-        const user =  await getUserbyPhoneNumber(phoneNumber);
-        if(!user){
-            return  res.status(401).json("user Does not exists")
-        }
-        
-        const propertyDetails={
-           
-            titleLR:titleLR,
-             county:county,
-             registrationSection:registrationSection,
-             blockNumber:blockNumber,
-             parcelNumber:parcelNumber,
-             sizeHa:sizeHa,
-             ownerName:ownerName,
-             leaseType:leaseType,
-             acquistionType:acquistionType,
-             encumbrance:encumbrance,
-             landRateBalance:landRateBalance,
-             propertyTitleDeed:propertyTitleDeedURL,
-             propertyImage:propertyImageURL,
+    const propertyImageURL = await uploadImage(propertyImage);
+    const propertyTitleDeedURL = await uploadImage(propertyTitleDeed);
 
-        }
-        const property= await checkIfPropertyExists(titleLR)
-
-        if(property){
-            return res.status(201).json("Property  Exists")
-
+    try {
+        const user = await getUserbyPhoneNumber(phoneNumber);
+        if (!user) {
+            return res.status(401).json({ message: "User does not exist" });
         }
 
-      await   userEnlistProperty(user._id, propertyDetails)
-    .then(enlistedProperty => {
-        
-        
-        return res.status(200).json("Property  enlisted Successful")
-    })
-    .catch(error => {
-        
-        return res.status(401).json("Failed to EnlistProperty");
-    });
+        const propertyDetails = {
+            titleLR: titleLR,
+            county: county,
+            registrationSection: registrationSection,
+            blockNumber: blockNumber,
+            parcelNumber: parcelNumber,
+            sizeHa: sizeHa,
+            ownerName: ownerName,
+            leaseType: leaseType,
+            acquistionType: acquistionType,
+            encumbrance: encumbrance,
+            landRateBalance: landRateBalance,
+            propertyTitleDeed: propertyTitleDeedURL,
+            propertyImage: propertyImageURL,
+        };
 
+        const propertyExists = await checkIfPropertyExists(titleLR);
+        if (propertyExists) {
+            return res.status(409).json({ message: "Property already exists" });
+        }
 
-    }catch(err){
-
+        const enlistedProperty = await userEnlistProperty(user._id, propertyDetails);
+        return res.status(200).json({ message: "Property enlisted successfully", property: enlistedProperty });
+    } catch (error) {
+        console.error("Failed to enlist property", error);
+        return res.status(500).json({ message: "Failed to enlist property" });
     }
-
-
-
-})
+});
 
 const getAllUserProperty = asyncHandler(async(req,res)=>{
     

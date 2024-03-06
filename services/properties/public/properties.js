@@ -36,10 +36,16 @@ const getAllUserEnlistedProperties = async (user_id) => {
 };
 
 //checkIfPropertyExists
-const checkIfPropertyExists = async(titleLR)=>{
-    const property = await EnlistProperty.find({titleLR:titleLR}).exec();
-    return property;
+const checkIfPropertyExists = async (titleLR) => {
+    try {
+        const property = await EnlistProperty.findOne({ titleLR: titleLR }).exec();
+        return !!property; // Convert to boolean (true if property exists, false otherwise)
+    } catch (error) {
+        console.error("Error checking property existence:", error);
+        throw error; // Re-throw the error for the caller to handle
+    }
 }
+
 
 //verify property for processing
 
