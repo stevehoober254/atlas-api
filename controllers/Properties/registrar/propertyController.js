@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler")
-const {getUserbyPhoneNumber} = require("../../../services/user/userServices")
+const {getUserbyPhoneNumber,getUserById} = require("../../../services/user/userServices")
 const {userEnlistProperty,getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
-const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
+const {getAllRegistryEnlistedProperties,getEnlistedPropertyPerCounty} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
 
@@ -27,8 +27,38 @@ const getAllRegistryPropertiesEnlisted = asyncHandler(async(req,res)=>{
 })
 
 
+const getAllPropertiesPerCounty = asyncHandler(async(req,res)=>{
+
+    try{
+        const registrar = await getUserById(req.user.id)
+       
+
+        if(!registrar){
+            return  res.status(401).json({message:"user does not exists"})
+        }
+
+        const properties = await getEnlistedPropertyPerCounty(registrar.county)
+
+        if(!properties || properties.length === 0){
+            return  res.status(204).json({message:"no properties"})
+
+        }
+        return res.status(200).json(properties)
+
+
+
+
+    }catch(error){
+        return res.status(500).json({message:"error retriving properties"})
+
+    }
+
+})
+
+
 
 module.exports ={
    
-    getAllRegistryPropertiesEnlisted
+    getAllRegistryPropertiesEnlisted,
+    getAllPropertiesPerCounty
 }

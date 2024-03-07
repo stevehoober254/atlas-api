@@ -10,7 +10,7 @@ const {Schema} = mongoose;
         
         password:{
             type:String,
-            required: false,
+            required: true,
         },
         role: {
             type: String,
@@ -27,6 +27,12 @@ const {Schema} = mongoose;
             unique:false,
             required:false,
         },
+        county:{
+            type:String,
+            unique:false,
+            required:false,
+        },
+        
         // userProfile: {
         //     type: Schema.Types.ObjectId,
         //     ref: "Profile",

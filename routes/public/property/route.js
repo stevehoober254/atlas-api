@@ -11,4 +11,6 @@ router.post("/verify",validateToken,verifyForProcessing)
 router.post("/enlistProperty",enlistProperty)
 
 
+
+
 module.exports = router

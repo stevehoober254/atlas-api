@@ -24,6 +24,10 @@ const getUserProfile =async(phoneNumber)=>{
 }
 
 
+const getUserById = async(user_id)=>{
+    const user = await User.findOne({_id:user_id}).exec()
+    return user;
+}
 
 
 
@@ -49,4 +53,5 @@ module.exports = {getUserbyPhoneNumber,
     getUserProfile,
     createUser,
 updateUserPhoneNumber,
-createUserProfile }
+createUserProfile,
+getUserById }
