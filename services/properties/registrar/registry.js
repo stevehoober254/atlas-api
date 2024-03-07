@@ -21,10 +21,34 @@ const getEnlistedPropertyPerCounty = async(county)=>{
 
 }
 
+//verify or reject property verification
 
+const verifyProperty = async(property_id)=>{
+
+   
+        const newPropertyUpdate = await  EnlistProperty.findByIdAndUpdate( property_id,{$set:{status:"verified"}},{new:true});
+        return !!newPropertyUpdate;
+
+  
+    
+}
+
+const rejectProperty = async(property_id)=>{
+
+    
+        const newPropertyUpdate = await  EnlistProperty.findByIdAndUpdate( property_id,{$set:{status:"rejected"}},{new:true});
+        return !!newPropertyUpdate;
+
+   
+    
+   
+    
+}
 
 module.exports ={
    
     getAllRegistryEnlistedProperties,
-    getEnlistedPropertyPerCounty
+    getEnlistedPropertyPerCounty,
+    verifyProperty,
+    rejectProperty
 }

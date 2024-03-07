@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler")
 const {getUserbyPhoneNumber,getUserById} = require("../../../services/user/userServices")
 const {userEnlistProperty,getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
-const {getAllRegistryEnlistedProperties,getEnlistedPropertyPerCounty} = require("../../../services/properties/registrar/registry")
+const {getAllRegistryEnlistedProperties,getEnlistedPropertyPerCounty,verifyProperty,rejectProperty} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
 
@@ -54,6 +54,11 @@ const getAllPropertiesPerCounty = asyncHandler(async(req,res)=>{
     }
 
 })
+
+//verify/Reject
+
+
+
 
 
 
