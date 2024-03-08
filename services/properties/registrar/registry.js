@@ -45,10 +45,18 @@ const rejectProperty = async(property_id)=>{
     
 }
 
+//check if property county is same with registrar county
+
+const checkPropertyByID = async(property_id)=>{
+    const isProperty = await EnlistProperty.findById({_id:property_id})
+    return  isProperty;
+}
+
 module.exports ={
    
     getAllRegistryEnlistedProperties,
     getEnlistedPropertyPerCounty,
     verifyProperty,
-    rejectProperty
+    rejectProperty,
+    checkPropertyByID
 }

@@ -64,7 +64,7 @@ const enlistProperty = asyncHandler(async (req, res) => {
 
 const getAllUserProperty = asyncHandler(async(req,res)=>{
     
-
+//get user id form jwt token
     try{
         const properties = await getAllUserEnlistedProperties(req.user.id);
         return res.status(201).json(properties);
