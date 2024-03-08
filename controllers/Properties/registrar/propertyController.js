@@ -59,7 +59,7 @@ const getAllPropertiesPerCounty = asyncHandler(async(req,res)=>{
 //verify/Reject
 
 const propertyVerification = asyncHandler(async(req,res)=>{
-    const {property_id,titleLR} = req.body;
+    const {property_id} = req.body;
 
     try{
         //getPropertyByID
@@ -97,6 +97,48 @@ const propertyVerification = asyncHandler(async(req,res)=>{
     }
 })
 
+//reject
+
+
+const propertyRejection = asyncHandler(async(req,res)=>{
+    const {property_id} = req.body;
+
+    try{
+        //getPropertyByID
+        const isProperty = await checkPropertyByID(property_id);
+        if(!isProperty){
+            return res.status(401).json({message:"property does not exists"})
+        }
+
+        //get registrar by id  >> get user id from the jwt authentication
+
+        const registrar=  await getUserById(req.user.id)
+        if(!registrar){
+            return res.status(401).json({message:"registrar does not exists"})
+        }
+
+        if(isProperty.county.toLowerCase() != registrar.county.toLowerCase()){
+            return res.status(409).json({message:"registrar not authorised"})
+        }
+         
+        const result = await rejectProperty(property_id);
+
+        if(!result){
+           return  res.status(401).json({message:"property does not exists"})
+        }
+
+        return  res.status(200).json({message:"succesful Property rejection"})
+
+        
+
+
+
+
+    }catch(error){
+        return res.status(500).json({message:"verification error "})
+    }
+})
+
 
 
 
@@ -106,5 +148,6 @@ module.exports ={
    
     getAllRegistryPropertiesEnlisted,
     getAllPropertiesPerCounty,
-    propertyVerification
+    propertyVerification,
+    propertyRejection
 }
