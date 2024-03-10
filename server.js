@@ -35,9 +35,10 @@ App.use(cors({
 App.options('*', cors());
 
 // Body parsing middleware
-App.use(bodyParser.urlencoded({ extended: false }));
-App.use(bodyParser.json());
+App.use(bodyParser.urlencoded({ extended: true, limit:"50mb",parameterLimit:50000 }));
+App.use(bodyParser.json({limit: '50mb'}));
 App.use(cookieParser());
+
 
 // Define routes
 App.use("/api", userRoute);
