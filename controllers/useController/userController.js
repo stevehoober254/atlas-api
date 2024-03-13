@@ -11,7 +11,7 @@ const {isValidPhoneNumber} = require('../../hooks/email-phoneNumber');
 const AccessToken = require("twilio/lib/jwt/AccessToken");
 const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword");
 const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
-const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber} = require("../../services/user/userServices");
+const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber,updateProfile,checkuserProfile} = require("../../services/user/userServices");
 const { use } = require("../../routes/public/property/route");
 /**todo user controller to auth , delete user,create, userController*/
 // Register a user
@@ -104,14 +104,37 @@ const loginUser= asyncHandler(async (req, res) => {
     })
 
 const updateUserProfile = asyncHandler(async(req,res)=>{
-  const {phoneNumber,role,id} = req.user;
   
-  let { gender,kraPin,idNumber,ethereumAddress,newPhoneNumber} = req.body;
-  newPhoneNumber = (phoneNumber === newPhoneNumber) ? phoneNumber : newPhoneNumber;
+  
+  let { gender,kraPin,idNumber,ethereumAddress,newPhoneNumber,dateOfBirth,kraCertificate,address,language} = req.body;
+  
 
   
 
   try{
+
+    const isProfileExists = await checkuserProfile(req.user.id);
+    if(isProfileExists){
+      const newUserProfileupdate = await updateProfile(
+        req.user.id,
+         gender,
+         kraPin,
+         idNumber,
+         ethereumAddress,
+        newPhoneNumber,
+        dateOfBirth,
+        kraCertificate,
+        address,
+        language
+  
+  
+      );
+      if(!newUserProfileupdate){
+        return res.status(401).json("failed to  update profile")
+      } 
+      return res.status(200).json({message:"update successively"})
+
+    }
     const newUserProfile = await createUserProfile(
       req.user.id,
        gender,
@@ -119,18 +142,28 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
        idNumber,
        ethereumAddress,
       newPhoneNumber,
+      dateOfBirth,
+      kraCertificate,
+      address,
+      language
+
+
     );
+if(!newUserProfile){
+  return res.status(401).json("failed to  update profile")
+}  
+  const result = await updateUserPhoneNumber(req.user.id,newPhoneNumber)
 
-    
-   await newUserProfile.save();
-  
-  
-  await updateUserPhoneNumber(newUserProfile._id,newPhoneNumber,phoneNumber)
+  if(!result){
+    return res.status(401).json("failed to  update phone number")
+  }
+  return res.status(201).json({message:"user profile created"})
 
-  res.status(200).json({message:"update successively"})
+
+  
   }catch(error){
     console.log(error)
-    res.status(400).json("Failed to Update details");
+   return  res.status(400).json("Failed to Update details");
     
     
   }

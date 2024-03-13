@@ -19,7 +19,7 @@ router.get("/refresh",refresh)
 
 
 //Get all Method
-router.get('/profile',validateToken,currentUser)
+// router.get('/profile',validateToken,currentUser)
 
 //update user profile
 router.post("/profile",validateToken,updateUserProfile)
