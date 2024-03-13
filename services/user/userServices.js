@@ -16,6 +16,12 @@ const getUserbyPhoneNumber =async(phoneNumber)=>{
     return user;
 
 }
+//getuser by idNumber
+const getUserProfilebyId =async(user_id)=>{
+    const userProfile = await Profile.findOne({user_id});
+    return userProfile;
+
+}
 
 const getUserProfile =async(phoneNumber)=>{
     const user = await User.findOne({phoneNumber}).populate("userProfile").exec()
@@ -31,15 +37,17 @@ const getUserById = async(user_id)=>{
 
 
 
-const createUserProfile = async(gender,kraPin,idNumber,ethereumAddress,newPhoneNumber)=>{
+const createUserProfile = async(user_id,gender,kraPin,idNumber,ethereumAddress,newPhoneNumber)=>{
     const newUserProfile = new Profile({
+        user:user_id,
         gender: gender,
         kraPin: kraPin,
         idNumber: idNumber,
         ethereumAddress: ethereumAddress,
         phoneNumber: newPhoneNumber,
       });
-      return newUserProfile;
+      const  result =await newUserProfile.save();
+      return !!result
 }
 
 const updateUserPhoneNumber = async(profile_id,newPhoneNumber,phoneNumber)=>{
@@ -54,4 +62,5 @@ module.exports = {getUserbyPhoneNumber,
     createUser,
 updateUserPhoneNumber,
 createUserProfile,
-getUserById }
+getUserById,
+getUserProfilebyId }

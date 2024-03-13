@@ -20,6 +20,7 @@ const profileSchema = new Schema(
     },
     idNumber: {
       type: String,
+      unique:true,
       required: true,
     },
     kraPin: {

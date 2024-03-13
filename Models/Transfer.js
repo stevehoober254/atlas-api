@@ -6,14 +6,12 @@ const {Schema} = mongoose
 
 const PropertyTransferSchema = new Schema(
     {
-      user: {
-        type: Schema.Types.ObjectId,  //ref owner of the property
-        ref: "User",
-        required: true,
-      },
-      property: {
-        type: Schema.Types.ObjectId,   //ref to the property that is being transferd
-        ref: "EnlistProperty",
+        userNationalId: {
+            type: String,
+            required: true,
+          },      
+      newuserNationalId: {
+        type: String,
         required: true,
       },
       landReferenceNumber: {

@@ -11,7 +11,8 @@ const {isValidPhoneNumber} = require('../../hooks/email-phoneNumber');
 const AccessToken = require("twilio/lib/jwt/AccessToken");
 const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword");
 const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
-const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber} = require("../../services/user/userServices")
+const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber} = require("../../services/user/userServices");
+const { use } = require("../../routes/public/property/route");
 /**todo user controller to auth , delete user,create, userController*/
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {
@@ -112,6 +113,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 
   try{
     const newUserProfile = await createUserProfile(
+      req.user.id,
        gender,
        kraPin,
        idNumber,

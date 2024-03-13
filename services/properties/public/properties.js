@@ -35,6 +35,12 @@ const getAllUserEnlistedProperties = async (user_id) => {
     }
 };
 
+//updatenewPropertyOwner
+const updatePropertyNewOwner = async(property_id,newOwner_id)=>{
+    const newOwnerUpdate = await  EnlistProperty.findByIdAndUpdate( property_id,{$set:{user:newOwner_id}},{new:true});
+    return !!newOwnerUpdate;
+}
+
 //checkIfPropertyExists
 const checkIfPropertyExists = async (titleLR) => {
     try {
@@ -68,5 +74,6 @@ module.exports = {
     getAllUserEnlistedProperties,
     verifyPropertyForProcessing,
     checkIfPropertyExists,
-    userEnlistProperty
+    userEnlistProperty,
+    updatePropertyNewOwner
 };
