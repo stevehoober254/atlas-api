@@ -28,7 +28,7 @@ const enlistPropertySchema = new Schema(
     },
     
     leaseType: {
-      type: String,
+      type: String, /** enum Freehold,     Leasehold,     Tenancy,      Sublease,      Occupancy,      Custom */
       required: false,
     },
     county: {
@@ -36,7 +36,7 @@ const enlistPropertySchema = new Schema(
       required: false,
     },
     encumbrance: {
-      type: String,
+      type: String, 
       required: true,
     },
     sizeHa: {
@@ -48,7 +48,7 @@ const enlistPropertySchema = new Schema(
       required: false,
     },
     acquistionType: {
-      type: String,
+      type: String,  //enum leasehold
       required: false,
     },
     titleLR: {
@@ -71,6 +71,14 @@ const enlistPropertySchema = new Schema(
         default: "waiting",
       },
   },
+  /**
+   * fields ***
+   * area,
+   * location,
+   * 
+   * acquisitiondate
+   * 
+   */
   { timestamps: true }
 );
 

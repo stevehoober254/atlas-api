@@ -12,7 +12,7 @@ const AccessToken = require("twilio/lib/jwt/AccessToken");
 const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword");
 const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
 const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber} = require("../../services/user/userServices")
-
+/**todo user controller to auth , delete user,create, userController*/
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {
   const { password, fullName, phoneNumber, role } = req.body;

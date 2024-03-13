@@ -4,6 +4,8 @@ const User = require("../Models/User")
 const asyncHandler = require("express-async-handler")
 const {ObjectId} = require("mongodb")
 
+/**auth controller all password reset,email */
+
 const {getPasswordResetURL,resetPasswordTemplate,transpoter} = require("../modules/email")
 const {usePasswordHashToMakeToken} =require("../hooks/usePasswordHashToMakeToken")
 

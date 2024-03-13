@@ -135,7 +135,7 @@ const propertyRejection = asyncHandler(async(req,res)=>{
 
 
     }catch(error){
-        return res.status(500).json({message:"verification error "})
+        return res.status(500).json({message:"verification error "}) //output error all routes
     }
 })
 
