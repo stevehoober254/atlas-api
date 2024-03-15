@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler")
-const {getUserbyPhoneNumber, getUserById,getUserProfilebyId} = require("../../../services/user/userServices")
+const {getUserbyPhoneNumber, getUserById,getUserProfilebyId,getAllUser} = require("../../../services/user/userServices")
 const {getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
@@ -157,18 +157,33 @@ try{
     }
 
 }catch(error){
-    return res.status(500).json({message:"Failed try another time",error});
+    return res.status(500).json({message:"Failed try another time"});
 
 }
 
 })
 
+//get all user profile
 
+const getAllUsersIdNumber =asyncHandler(async(req,res)=>{
+    try{
+        const  userIds = await getAllUser();
+        if(!userIds){
+            return res.status(401).json({message:"no user  found"});
+        }
+        return res.status(200).json(userIds);
+
+    }catch(error){
+        return res.status(500).json({message:"Failed try another time"});
+
+    }
+})
 
 module.exports ={
     enlistProperty,
     getAllUserProperty,
     verifyForProcessing,
-    transferPropertyOwnership
+    transferPropertyOwnership,
+    getAllUsersIdNumber
     
 }

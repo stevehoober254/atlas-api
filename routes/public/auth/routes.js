@@ -6,7 +6,7 @@ const User = require("../../../Models/User")
 const {isValidEmail,isValidPhoneNumber} = require("../../../hooks/email-phoneNumber");
 const { registerUser, loginUser, currentUser, updateUserProfile,logout,refresh } = require("../../../controllers/useController/userController");
 const {validateToken} = require("../../../middleWare/validateTokenHandler");
-const {enlistProperty} = require("../../../controllers/Properties/public/propertyController")
+const {enlistProperty,getAllUsersIdNumber} = require("../../../controllers/Properties/public/propertyController")
 
 
 
@@ -27,6 +27,11 @@ router.post("/profile",validateToken,updateUserProfile)
 //user enlist property
 
 router.post("/enlistProperty",enlistProperty)
+
+//getAllUserIds
+router.get("/usersId",validateToken,getAllUsersIdNumber)
+
+
 
 //Get by ID Method
 router.patch('/:user_id', async(req, res) => {

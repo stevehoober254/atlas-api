@@ -140,6 +140,14 @@ const checkuserProfile = async(user_Id)=>{
     return !!existingProfile;
 }
 
+//return all users by profile
+
+const getAllUser = async () => {
+    const users = await Profile.find({}, { _id: 0,idNumber: 1 }).exec();
+    return users;
+};
+
+
 module.exports = {getUserbyPhoneNumber,
     getUserProfile,
     createUser,
@@ -148,4 +156,5 @@ createUserProfile,
 getUserById,
 getUserProfilebyId,
 updateProfile,
-checkuserProfile }
+checkuserProfile,
+getAllUser }
