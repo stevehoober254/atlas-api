@@ -73,7 +73,7 @@ const verifyPropertyForProcessing = async(property_id)=>{
 //check if property is verified
 
 const isPropertyVerified = async (landReferenceNumber) => {
-    const property = await EnlistProperty.findOne({ landRefNumber: landReferenceNumber, status: "verified" }).exec();
+    const property = await EnlistProperty.findOne({landRefNumber: landReferenceNumber,status:"verified"}).exec();
     return !!property;
 };
 

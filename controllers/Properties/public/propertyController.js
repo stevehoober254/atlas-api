@@ -4,7 +4,7 @@ const {getAllEnlistedProperties} = require("../../../services/properties/admin/e
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
-const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty,isPropertyVerified} = require("../../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified} = require("../../../services/properties/public/properties");
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
@@ -111,6 +111,17 @@ try{
     if (!propertyExists) {
         return res.status(401).json({ message: "Property does not exists" });
     }
+    //check if user owns the property
+    const ownProperty = await doesUserOwnProperty(landReferenceNumber,req.user.id);
+    if (!ownProperty) {
+        return res.status(401).json({ message: "You don't own this property" });
+    }
+
+    //check the status of the property if is verified
+    // const isPropertyVerified = await isPropertyVerified(landReferenceNumber,req.user.id);
+    // if (!isPropertyVerified) {
+    //     return res.status(401).json({ message: "Property Not Verified" });
+    // }
     const user = await getUserById(req.user.id)
     //check if the user is authorized to
     if(!user){
