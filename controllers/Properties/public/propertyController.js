@@ -4,7 +4,7 @@ const {getAllEnlistedProperties} = require("../../../services/properties/admin/e
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
-const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner} = require("../../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty,isPropertyVerified} = require("../../../services/properties/public/properties");
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
@@ -120,7 +120,7 @@ try{
     const userProfile = await getUserProfilebyId(req.user.id)
 
     if(!userProfile){
-        return res.status(401).json({message:"user must complete their profile"});
+        return res.status(401).json({message:"user must complete their profile",userProfile});
     }
 
     const newUser = await getUserbyPhoneNumber(newuserPhoneNumber);
@@ -137,7 +137,7 @@ try{
     const transfer = await transferProperty(userProfile.idNumber,newUserProfile.idNumber,landReferenceNumber,newUserProfile.ethereumAddress,userProfile.ethereumAddress,approvalDate,requestDate);
 
     if(transfer){
-        const changeOwnership = await updatePropertyNewOwner(property_id,newUser._id);
+        const changeOwnership = await updatePropertyNewOwner(property_id,newUser._id,newUser.currentOwner);
         if(!changeOwnership){
             return res.status(401).json({message:"Failed to change ownership"});
 
@@ -145,16 +145,8 @@ try{
         return res.status(200).json({message:"success"});
     }
 
-
-
-
-
-
-
-
-
 }catch(error){
-    return res.status(500).json({message:"Failed try another time"});
+    return res.status(500).json({message:"Failed try another time",error});
 
 }
 

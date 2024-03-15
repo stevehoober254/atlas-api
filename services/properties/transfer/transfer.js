@@ -12,8 +12,7 @@ const transferProperty= async(userNationalId,newuserNationalId,landReferenceNumb
         newOwnerEthereumAddress:newOwnerEthereumAddress,
         requestorAddress:requestorAddress,
         approvalDate:approvalDate,
-        requestDate:requestDate,
-        
+        requestDate:requestDate,        
         newuserNationalId:newuserNationalId,
       });
       const result = await trans.save()

@@ -16,7 +16,7 @@ const PropertyTransferSchema = new Schema(
       },
       landReferenceNumber: {
         type: String,
-        unique:true,
+       
         required: true,
       },
       newOwnerEthereumAddress: {

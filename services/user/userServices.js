@@ -18,7 +18,7 @@ const getUserbyPhoneNumber =async(phoneNumber)=>{
 }
 //getuser by idNumber
 const getUserProfilebyId =async(user_id)=>{
-    const userProfile = await Profile.findOne({user_id});
+    const userProfile = await Profile.findOne({user:user_id});
     return userProfile;
 
 }
