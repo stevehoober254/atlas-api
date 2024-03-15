@@ -118,10 +118,10 @@ try{
     }
 
     //check the status of the property if is verified
-    // const isPropertyVerified = await isPropertyVerified(landReferenceNumber,req.user.id);
-    // if (!isPropertyVerified) {
-    //     return res.status(401).json({ message: "Property Not Verified" });
-    // }
+    const ispropertyVerified = await isPropertyVerified(landReferenceNumber,req.user.id);
+    if (!ispropertyVerified) {
+        return res.status(401).json({ message: "Property Not Verified" });
+    }
     const user = await getUserById(req.user.id)
     //check if the user is authorized to
     if(!user){

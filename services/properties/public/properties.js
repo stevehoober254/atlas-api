@@ -44,7 +44,7 @@ const updatePropertyNewOwner = async(property_id,newOwner_id,newOwner_Name)=>{
 //checkIfPropertyExists
 const checkIfPropertyExists = async (landRefNumber) => {
     try {
-        const property = await EnlistProperty.findOne({ landRefNumber: landRefNumber }).exec();
+        const property = await EnlistProperty.findOne({ titleLR: landRefNumber }).exec();
         return !!property; // Convert to boolean (true if property exists, false otherwise)
     } catch (error) {
         console.error("Error checking property existence:", error);
@@ -73,13 +73,13 @@ const verifyPropertyForProcessing = async(property_id)=>{
 //check if property is verified
 
 const isPropertyVerified = async (landReferenceNumber) => {
-    const property = await EnlistProperty.findOne({landRefNumber: landReferenceNumber,status:"verified"}).exec();
+    const property = await EnlistProperty.findOne({titleLR: landReferenceNumber,status:"verified"}).exec();
     return !!property;
 };
 
 //check if  a user owns a particular property
 const doesUserOwnProperty = async (landReferenceNumber,user_Id)=>{
-    const  ownerShipStatus=await  EnlistProperty.findOne({landRefNumber: landReferenceNumber,user: user_Id}).exec();
+    const  ownerShipStatus=await  EnlistProperty.findOne({titleLR: landReferenceNumber,user: user_Id}).exec();
     return !! ownerShipStatus;
 }
 
