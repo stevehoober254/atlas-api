@@ -4,6 +4,7 @@ const {userEnlistProperty,getAllEnlistedProperties} = require("../../../services
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
+const {getAllPropertyTransfered} = require("../../../services/transfersProperty/admin/transfers")
 
 
 
@@ -29,11 +30,30 @@ const getAllPropertiesEnlisted = asyncHandler(async(req,res)=>{
 })
 
 
+//get All Transfered Properties
+
+const getTransfers = asyncHandler(async(req,res)=>{
+    try{
+        const transferProperty = await  getAllPropertyTransfered();
+
+        if(!transferProperty || transferProperty.length ==0){
+            return res.status(401).json({message:"no property yet "})
+        }
+        return res.status(200).json(transferProperty);
+
+
+    }catch(error){
+        return res.status(500).json({message:"try another time "})
+
+    }
+})
+
 
 
 
 module.exports ={
    
-    getAllPropertiesEnlisted
+    getAllPropertiesEnlisted,
+    getTransfers
     
 }
