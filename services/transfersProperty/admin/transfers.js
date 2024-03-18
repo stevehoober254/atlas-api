@@ -8,4 +8,12 @@ const getAllPropertyTransfered = async()=>{
      return propertyTransfers;
 }
 
-module.exports= {getAllPropertyTransfered}
+//get total sum of all properties transfered
+
+const getTotalTransfers =async()=>{
+    const total = await Transfer.find({}).countDocuments();
+   return total
+}
+
+module.exports= {getAllPropertyTransfered,
+getTotalTransfers}

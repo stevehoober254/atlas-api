@@ -153,7 +153,11 @@ const getUserProfileByIdNumber = async(idNumber)=>{
 
     return userProfile;
 }
-
+//get user profile
+const getAllUserProfile = async()=>{
+    const usersProfile = await Profile.find({}).exec()
+    return usersProfile
+}
 module.exports = {getUserbyPhoneNumber,
     getUserProfile,
     createUser,
@@ -164,4 +168,5 @@ getUserProfilebyId,
 updateProfile,
 checkuserProfile,
 getAllUser,
-getUserProfileByIdNumber }
+getUserProfileByIdNumber,
+getAllUserProfile }
