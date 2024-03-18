@@ -18,6 +18,14 @@ const enlistPropertySchema = new Schema(
       type: String,
       required: true,
     },
+    propertyCoordinate: {
+      type: String,
+      required: false,
+    },
+    userType: {
+      type: String,
+      required: false,
+    },
     parcelNumber: {
       type: String,
       required: false,

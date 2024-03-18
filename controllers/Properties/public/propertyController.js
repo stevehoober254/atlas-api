@@ -8,6 +8,8 @@ const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProper
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
+
+
 const enlistProperty = asyncHandler(async (req, res) => {
     const {
         phoneNumber,
@@ -24,6 +26,9 @@ const enlistProperty = asyncHandler(async (req, res) => {
         landRateBalance,
         propertyTitleDeed,
         propertyImage,
+        propertyCoordinate,
+        userType
+        
     } = req.body;
 
     const propertyImageURL = await uploadImage(propertyImage);
@@ -49,6 +54,8 @@ const enlistProperty = asyncHandler(async (req, res) => {
             landRateBalance: landRateBalance,
             propertyTitleDeed: propertyTitleDeedURL,
             propertyImage: propertyImageURL,
+            propertyCoordinate:propertyCoordinate,
+            userType:userType
         };
 
         const propertyExists = await checkIfPropertyExists(titleLR);
