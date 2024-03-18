@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler")
-const {getUserbyPhoneNumber, getUserById,getUserProfilebyId,getAllUser} = require("../../../services/user/userServices")
+const {getUserbyPhoneNumber, getUserById,getUserProfilebyId,getAllUser,getUserProfileByIdNumber} = require("../../../services/user/userServices")
 const {getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
@@ -104,8 +104,10 @@ const verifyForProcessing = asyncHandler(async(req,res)=>{
 //transfer property
 
 const transferPropertyOwnership = asyncHandler(async(req,res)=>{
-    const {newuserPhoneNumber,landReferenceNumber,approvalDate,requestDate,property_id} = req.body;
+    const {idNumber,landReferenceNumber,approvalDate,requestDate} = req.body;
 try{
+
+    //check if propery exists
     
     const propertyExists = await checkIfPropertyExists(landReferenceNumber);
     if (!propertyExists) {
@@ -131,24 +133,32 @@ try{
     const userProfile = await getUserProfilebyId(req.user.id)
 
     if(!userProfile){
-        return res.status(401).json({message:"user must complete their profile",userProfile});
+        return res.status(401).json({message:"user must complete their profile"});
     }
 
-    const newUser = await getUserbyPhoneNumber(newuserPhoneNumber);
+//get new racipient profile by id Number    
+   const newUserProfile = await getUserProfileByIdNumber(idNumber)
+   
 
+    
+    if(!newUserProfile){
+        return res.status(401).json({message:"The recipient need to complete their profile"});
+    }
+
+    //get user profile name from user model
+    const newUser = await getUserbyPhoneNumber(newUserProfile.phoneNumber);
     if(!newUser){
         return res.status(401).json({message:"The recipient of the property does not exists in the platform"});
     }
 
-    const newUserProfile = await getUserProfilebyId(newUser._id)
-    if(!newUser){
-        return res.status(401).json({message:"The recipient need to complete their profile"});
-    }
-
+    //transfer the property and save it on the transfer model
     const transfer = await transferProperty(userProfile.idNumber,newUserProfile.idNumber,landReferenceNumber,newUserProfile.ethereumAddress,userProfile.ethereumAddress,approvalDate,requestDate);
+    
 
     if(transfer){
-        const changeOwnership = await updatePropertyNewOwner(property_id,newUser._id,newUser.currentOwner);
+        //change property ownership
+        const changeOwnership = await updatePropertyNewOwner(propertyExists._id,newUser._id,newUser.currentOwner);
+        
         if(!changeOwnership){
             return res.status(401).json({message:"Failed to change ownership"});
 
@@ -157,7 +167,7 @@ try{
     }
 
 }catch(error){
-    return res.status(500).json({message:"Failed try another time"});
+    return res.status(500).json({message:"Failed try another time",error});
 
 }
 

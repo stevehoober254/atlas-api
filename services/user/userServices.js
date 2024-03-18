@@ -147,6 +147,12 @@ const getAllUser = async () => {
     return users;
 };
 
+//get userProfile by IdNumber
+const getUserProfileByIdNumber = async(idNumber)=>{
+    const userProfile = await Profile.findOne({idNumber:idNumber})
+
+    return userProfile;
+}
 
 module.exports = {getUserbyPhoneNumber,
     getUserProfile,
@@ -157,4 +163,5 @@ getUserById,
 getUserProfilebyId,
 updateProfile,
 checkuserProfile,
-getAllUser }
+getAllUser,
+getUserProfileByIdNumber }

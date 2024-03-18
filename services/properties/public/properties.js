@@ -36,16 +36,26 @@ const getAllUserEnlistedProperties = async (user_id) => {
 };
 
 //updatenewPropertyOwner
-const updatePropertyNewOwner = async(property_id,newOwner_id,newOwner_Name)=>{
-    const newOwnerUpdate = await  EnlistProperty.findByIdAndUpdate( property_id,{$set:{user:newOwner_id,ownerName:newOwner_Name}},{new:true});
-    return !!newOwnerUpdate;
-}
+const updatePropertyNewOwner = async(property_id, newOwner_id, newOwner_Name) => {
+    try {
+        const newOwnerUpdate = await EnlistProperty.findByIdAndUpdate(property_id, {
+            $set: {
+                user: newOwner_id,
+                ownerName: newOwner_Name
+            }
+        }, { new: true });
 
+        return !!newOwnerUpdate;
+    } catch (error) {
+        console.error("Error updating property owner:", error);
+        return false; // or handle the error in another appropriate way
+    }
+}
 //checkIfPropertyExists
 const checkIfPropertyExists = async (landRefNumber) => {
     try {
         const property = await EnlistProperty.findOne({ titleLR: landRefNumber }).exec();
-        return !!property; // Convert to boolean (true if property exists, false otherwise)
+        return property; // Convert to boolean (true if property exists, false otherwise)
     } catch (error) {
         console.error("Error checking property existence:", error);
         // throw error; // Re-throw the error for the caller to handle
