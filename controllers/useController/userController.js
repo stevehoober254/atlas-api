@@ -208,7 +208,7 @@ const searchUserByIdNumber = asyncHandler(async(req,res)=>{
     if(!userIdNumber){
       return res.status(404).json({message:"User Id Not Found!"})
     }
-    return res.status(404).json(userIdNumber)
+    return res.status(200).json(userIdNumber)
 
   }catch(error){
     return res.status(500).json({ message: 'Internal server error' });
