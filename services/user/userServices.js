@@ -149,7 +149,10 @@ const getAllUser = async () => {
 
 //search user by id
 const searchById=async(idNumber)=>{
-    const userIdNumber = await Profile.findOne( {idNumber : idNumber},{ _id: 1,idNumber: 1 } ).select("idNumber").exec()
+    const userIdNumber = await Profile.findOne( {idNumber : idNumber},{ _id: 1,idNumber: 1 } ).populate({
+        path: "user",
+        select: "fullName", 
+      }).select("idNumber").exec()
     return userIdNumber;
 }
 
