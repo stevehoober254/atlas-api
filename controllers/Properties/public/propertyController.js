@@ -111,7 +111,7 @@ const verifyForProcessing = asyncHandler(async(req,res)=>{
 //transfer property
 
 const transferPropertyOwnership = asyncHandler(async(req,res)=>{
-    const {idNumber,landReferenceNumber,approvalDate,requestDate} = req.body;
+    const {idNumber,landReferenceNumber,approvalDate,requestDate,attachDocument} = req.body;
 try{
 
     //check if propery exists
@@ -159,7 +159,8 @@ try{
     }
 
     //transfer the property and save it on the transfer model
-    const transfer = await transferProperty(userProfile.idNumber,newUserProfile.idNumber,landReferenceNumber,newUserProfile.ethereumAddress,userProfile.ethereumAddress,approvalDate,requestDate);
+    const attachDocumentURL = await uploadImage(attachDocument);
+    const transfer = await transferProperty(userProfile.idNumber,newUserProfile.idNumber,landReferenceNumber,newUserProfile.ethereumAddress,userProfile.ethereumAddress,approvalDate,requestDate,attachDocumentURL);
     
 
     if(transfer){

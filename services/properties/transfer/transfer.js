@@ -4,7 +4,7 @@ const Transfer = require("../../../Models/Transfer");
 
 
 
-const transferProperty= async(userNationalId,newuserNationalId,landReferenceNumber,newOwnerEthereumAddress,requestorAddress,approvalDate,requestDate)=>{
+const transferProperty= async(userNationalId,newuserNationalId,landReferenceNumber,newOwnerEthereumAddress,requestorAddress,approvalDate,requestDate,attachDocument)=>{
 
     const trans = new Transfer({
         userNationalId:userNationalId,
@@ -14,6 +14,7 @@ const transferProperty= async(userNationalId,newuserNationalId,landReferenceNumb
         approvalDate:approvalDate,
         requestDate:requestDate,        
         newuserNationalId:newuserNationalId,
+        attachDocument:attachDocument,
       });
       const result = await trans.save()
       return !!result;

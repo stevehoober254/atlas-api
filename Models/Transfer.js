@@ -28,7 +28,7 @@ const PropertyTransferSchema = new Schema(
       },
       approvalDate: {
         type: Date,
-        required: true,
+        required: false,
       },
       
       requestDate: {
@@ -40,6 +40,10 @@ const PropertyTransferSchema = new Schema(
           type: String,
           enum: ['Requested', 'Approved', 'Encumbered', 'Error'],
           default: "Requested",
+        },
+        attachDocument: {
+          type: Date, 
+          required: false,
         },
     },
    

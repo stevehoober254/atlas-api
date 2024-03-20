@@ -11,7 +11,7 @@ const {isValidPhoneNumber} = require('../../hooks/email-phoneNumber');
 const AccessToken = require("twilio/lib/jwt/AccessToken");
 const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword");
 const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
-const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber,updateProfile,checkuserProfile} = require("../../services/user/userServices");
+const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber,updateProfile,checkuserProfile,searchById} = require("../../services/user/userServices");
 const { use } = require("../../routes/public/property/route");
 /**todo user controller to auth , delete user,create, userController*/
 // Register a user
@@ -198,6 +198,23 @@ const refresh = asyncHandler(async (req, res) => {
   
 });
 
+//search by id
+
+const searchUserByIdNumber = asyncHandler(async(req,res)=>{
+  const {idNumber} = req.params
+  
+  try{
+    const userIdNumber = await searchById(idNumber);
+    if(!userIdNumber){
+      return res.status(404).json({message:"User Id Not Found!"})
+    }
+    return res.status(404).json(userIdNumber)
+
+  }catch(error){
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+})
+
 
 const logout =async (req,res)=>{
   const cookies = req.cookies;
@@ -208,4 +225,10 @@ const logout =async (req,res)=>{
     secure:true})
   res.json({message:"Cookie cleared"});
 }
-module.exports = { registerUser,loginUser,currentUser,updateUserProfile,logout,refresh };
+module.exports = { registerUser,
+  loginUser,
+  currentUser,
+  updateUserProfile,
+  logout,
+  refresh,
+searchUserByIdNumber };

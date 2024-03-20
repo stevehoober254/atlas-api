@@ -147,6 +147,12 @@ const getAllUser = async () => {
     return users;
 };
 
+//search user by id
+const searchById=async(idNumber)=>{
+    const userIdNumber = await Profile.findOne( {idNumber : idNumber},{ _id: 0,idNumber: 1 } ).select("idNumber").exec()
+    return userIdNumber;
+}
+
 //get userProfile by IdNumber
 const getUserProfileByIdNumber = async(idNumber)=>{
     const userProfile = await Profile.findOne({idNumber:idNumber})
@@ -169,4 +175,5 @@ updateProfile,
 checkuserProfile,
 getAllUser,
 getUserProfileByIdNumber,
-getAllUserProfile }
+getAllUserProfile,
+searchById }

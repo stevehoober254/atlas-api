@@ -93,6 +93,8 @@ const doesUserOwnProperty = async (landReferenceNumber,user_Id)=>{
     return !! ownerShipStatus;
 }
 
+//search property by title number
+
 
 module.exports = {
     getAllUserEnlistedProperties,
