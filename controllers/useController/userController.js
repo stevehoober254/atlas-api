@@ -206,7 +206,7 @@ const searchUserByIdNumber = asyncHandler(async(req,res)=>{
   try{
     const userIdNumber = await searchById(idNumber);
     if(!userIdNumber){
-      return res.status(404).json({message:"User Id Not Found!"})
+      return res.status(401).json({message:"User Id Not Found!"})
     }
     return res.status(200).json(userIdNumber)
 
