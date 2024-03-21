@@ -94,9 +94,9 @@ const doesUserOwnProperty = async (landReferenceNumber,user_Id)=>{
 }
 
 //search property by title number only user properties
-const searchPropertyByTitleNumber = async(landReferenceNumber,user_Id)=>{
+const searchPropertyByTitleNumber = async(landReferenceNumber)=>{
 
-    const propertyTitle = await EnlistProperty.findOne({titleLR:landReferenceNumber,user: user_Id},{_id:1,titleLR:1}).select("titleLR").exec()
+    const propertyTitle = await EnlistProperty.findOne({titleLR:landReferenceNumber},{_id:1,titleLR:1}).select("titleLR").exec()
 
     return propertyTitle;
 }

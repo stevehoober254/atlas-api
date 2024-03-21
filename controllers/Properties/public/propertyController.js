@@ -186,7 +186,7 @@ try{
 const searchPropertyTitle = asyncHandler(async(req,res)=>{
     const {titleLR} = req.params
     try{
-        const propertyTitle = await searchPropertyByTitleNumber(titleLR,req.user.id)
+        const propertyTitle = await searchPropertyByTitleNumber(titleLR)
 
         if(!propertyTitle){
             return res.status(401).json({message:"property title Does not exists"})

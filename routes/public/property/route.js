@@ -14,7 +14,7 @@ router.post("/transfer",validateToken,transferPropertyOwnership)
 
 //search property title
 
-router.get("/search/:titleLR",validateToken,searchPropertyTitle);
+router.get("/search/:titleLR",searchPropertyTitle); //validation in production
 
 
 
