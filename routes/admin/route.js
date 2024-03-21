@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {validateToken} = require("../../middleWare/validateTokenHandler");
 const {onlyRegistrarOrAdmin} = require("../../middleWare/onlyRegistrarOradmin")
-const {getAllPropertiesEnlisted,getTransfers,countTotalProperties} = require("../../controllers/Properties/admin/propertyController")
+const {getAllPropertiesEnlisted,getTransfers,countTotalProperties,getEncumbrances} = require("../../controllers/Properties/admin/propertyController")
 const {getUsersProfile} = require("../../controllers/Properties/admin/usersProfileController")
 
 
@@ -22,7 +22,11 @@ router.get('/getAllTransfers',validateToken,onlyRegistrarOrAdmin,getTransfers);
 router.get('/getUsersProfile',validateToken,onlyRegistrarOrAdmin,getUsersProfile);
 
 //return total number of properties
-router.get('/totalProperties',countTotalProperties);
+router.get('/totalProperties',countTotalProperties); //add validate and onlyadmin
+
+//get all Encumbrances
+router.get('/getAllEncumbrances',getEncumbrances); //add validate and onlyadmin
+
 
 
 

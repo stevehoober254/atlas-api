@@ -5,7 +5,7 @@ const {getAllRegistryEnlistedProperties} = require("../../../services/properties
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
 const {getAllPropertyTransfered,getTotalTransfers} = require("../../../services/transfersProperty/admin/transfers")
-const {getTotalEncumbrances} = require("../../../services/properties/encumbrance/encumbrance")
+const {getTotalEncumbrances,getAllEncumbrances} = require("../../../services/properties/encumbrance/encumbrance")
 
 
 
@@ -67,11 +67,27 @@ const countTotalProperties = asyncHandler(async (req , res )=> {
 
    })
 
+   //get all encumbrances
+   const getEncumbrances = asyncHandler(async (req , res) => {
+    try{
+
+        const allEncumbrances = await getAllEncumbrances();
+
+        return res.status(200).json(allEncumbrances);
+
+    }catch(error){
+        return res.status(500).json({message:"Server Error"});
+
+    }
+
+   } );
+
 
 module.exports ={
    
     getAllPropertiesEnlisted,
     getTransfers,
-    countTotalProperties
+    countTotalProperties,
+    getEncumbrances
     
 }
