@@ -167,6 +167,12 @@ const getAllUserProfile = async()=>{
     const usersProfile = await Profile.find({}).exec()
     return usersProfile
 }
+
+//get total users
+const  countTotalUsers = async()=>{
+   let totalUsers = await User.countDocuments().exec();
+   return totalUsers;
+}
 module.exports = {getUserbyPhoneNumber,
     getUserProfile,
     createUser,
@@ -179,4 +185,5 @@ checkuserProfile,
 getAllUser,
 getUserProfileByIdNumber,
 getAllUserProfile,
-searchById }
+searchById,
+countTotalUsers }

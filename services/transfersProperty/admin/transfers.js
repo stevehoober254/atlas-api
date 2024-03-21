@@ -15,5 +15,7 @@ const getTotalTransfers =async()=>{
    return total
 }
 
+
+
 module.exports= {getAllPropertyTransfered,
 getTotalTransfers}

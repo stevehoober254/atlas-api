@@ -1,10 +1,11 @@
 const asyncHandler = require("express-async-handler")
-const {getUserbyPhoneNumber} = require("../../../services/user/userServices")
-const {userEnlistProperty,getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
+const {getUserbyPhoneNumber,countTotalUsers} = require("../../../services/user/userServices")
+const {userEnlistProperty,getAllEnlistedProperties,countTotalEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
 const {getAllPropertyTransfered,getTotalTransfers} = require("../../../services/transfersProperty/admin/transfers")
+const {getTotalEncumbrances} = require("../../../services/properties/encumbrance/encumbrance")
 
 
 
@@ -49,12 +50,28 @@ const getTransfers = asyncHandler(async(req,res)=>{
     }
 })
 
+//count total number of properties/tranfers
+const countTotalProperties = asyncHandler(async (req , res )=> { 
 
+    try{
+        const totalNumberOfProperties = await countTotalEnlistedProperties()
+        const totalNumberOfTranfers = await getTotalTransfers()
+        const totalNumberOfUsers = await countTotalUsers()
+        const totalNumberOfEncumbrance= await getTotalEncumbrances()
+        return res.status(200).json({total:totalNumberOfProperties,transfers:totalNumberOfTranfers,users:totalNumberOfUsers,encumbrance:totalNumberOfEncumbrance});
+
+    }catch(error){
+
+    }
+
+
+   })
 
 
 module.exports ={
    
     getAllPropertiesEnlisted,
-    getTransfers
+    getTransfers,
+    countTotalProperties
     
 }

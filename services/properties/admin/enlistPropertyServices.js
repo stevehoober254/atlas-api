@@ -30,11 +30,21 @@ const getAllEnlistedProperties =async()=>{
 
 }
 
+//get total number of enlisted properties
+
+const  countTotalEnlistedProperties=async ()=>{
+    
+   let count =await EnlistProperty.countDocuments({});
+
+   return count;
+}
+
 
 
 
 
 module.exports ={
     userEnlistProperty,
-    getAllEnlistedProperties
+    getAllEnlistedProperties,
+    countTotalEnlistedProperties
 }
