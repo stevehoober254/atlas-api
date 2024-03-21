@@ -29,8 +29,8 @@ const EncumbranceSchema = new Schema(
 
       status: {
           type: String,
-          enum: ['Added', 'Removed'],
-          default: "Added",
+          enum: ['raised', 'resolved','pending', 'rejected'],
+          default: "raised",
         },
     },
 

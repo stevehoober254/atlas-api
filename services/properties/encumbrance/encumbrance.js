@@ -16,6 +16,11 @@ const getAllEncumbrances = async () => {
     return encumbrances;
 }
 
+//TODO
+//get all resolved encumbrances
+//get all  pending encumbrances 
+//get all  rejected encumbrances
+
 module.exports={
     getTotalEncumbrances,
     getAllEncumbrances
