@@ -4,7 +4,7 @@ const {getAllEnlistedProperties} = require("../../../services/properties/admin/e
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
-const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified} = require("../../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified,searchPropertyByTitleNumber} = require("../../../services/properties/public/properties");
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
@@ -175,11 +175,35 @@ try{
     }
 
 }catch(error){
-    return res.status(500).json({message:"Failed try another time",error});
+    return res.status(500).json({message:"Failed try another time"});
 
 }
 
 })
+
+//search propertyby title number
+
+const searchPropertyTitle = asyncHandler(async(req,res)=>{
+    const {titleLR} = req.params
+    try{
+        const propertyTitle = await searchPropertyByTitleNumber(titleLR,req.user.id)
+
+        if(!propertyTitle){
+            return res.status(401).json({message:"property title Does not exists"})
+        }
+
+        return res.status(200).json(propertyTitle)
+
+
+
+    }catch(error){
+        return res.status(500).json({message:"Failed try another time"});
+
+    }
+
+
+})
+
 
 //get all user profile
 
@@ -202,6 +226,7 @@ module.exports ={
     getAllUserProperty,
     verifyForProcessing,
     transferPropertyOwnership,
-    getAllUsersIdNumber
+    getAllUsersIdNumber,
+    searchPropertyTitle
     
 }

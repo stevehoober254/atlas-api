@@ -93,8 +93,13 @@ const doesUserOwnProperty = async (landReferenceNumber,user_Id)=>{
     return !! ownerShipStatus;
 }
 
-//search property by title number
+//search property by title number only user properties
+const searchPropertyByTitleNumber = async(landReferenceNumber,user_Id)=>{
 
+    const propertyTitle = await EnlistProperty.findOne({titleLR:landReferenceNumber,user: user_Id},{_id:1,titleLR:1}).select("titleLR").exec()
+
+    return propertyTitle;
+}
 
 module.exports = {
     getAllUserEnlistedProperties,
@@ -103,5 +108,6 @@ module.exports = {
     userEnlistProperty,
     updatePropertyNewOwner,
     isPropertyVerified,
-    doesUserOwnProperty
+    doesUserOwnProperty,
+    searchPropertyByTitleNumber
 };
