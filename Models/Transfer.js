@@ -27,12 +27,12 @@ const PropertyTransferSchema = new Schema(
         required: false,
       },
       approvalDate: {
-        type: Date,
+        type: String,
         required: false,
       },
       
       requestDate: {
-        type: Date, 
+        type: String, 
         required: false,
       },
      
@@ -42,7 +42,7 @@ const PropertyTransferSchema = new Schema(
           default: "Requested",
         },
         attachDocument: {
-          type: Date, 
+          type: String, 
           required: false,
         },
     },
