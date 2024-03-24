@@ -175,7 +175,7 @@ try{
     }
 
 }catch(error){
-    return res.status(500).json({message:"Failed try another time"});
+    return res.status(501).json({message:"Failed try another time"});
 
 }
 
