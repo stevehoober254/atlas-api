@@ -36,10 +36,9 @@ const profileSchema = new Schema(
     //   required: false,
     // },
     ethereumAddress: {
-      type: String,
-      unique: false, //make true in production
+      type: String,                       
       required: true,
-    },
+    },   //make true in production
     phoneNumber: {
       type: String,
       required: true,
