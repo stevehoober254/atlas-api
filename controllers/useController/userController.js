@@ -13,7 +13,7 @@ const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword")
 const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
 const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber,updateProfile,checkuserProfile,searchById} = require("../../services/user/userServices");
 const { use } = require("../../routes/public/property/route");
-const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
+const {uploadImage}= require("../../upload/uploadDocuments")
 /**todo user controller to auth , delete user,create, userController*/
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {
