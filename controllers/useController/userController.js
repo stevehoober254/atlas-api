@@ -116,7 +116,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 
     const isProfileExists = await checkuserProfile(req.user.id);
     if(isProfileExists){
-      let identificationUpload = await uploadImage(identification)
+      const identificationUpload = await uploadImage(identification)
       const newUserProfileupdate = await updateProfile(
         req.user.id,
         identificationUpload,
@@ -135,7 +135,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
       return res.status(200).json({message:"update successively"})
 
     }
-    let identificationUpload = await uploadImage(identification)
+    const identificationUpload = await uploadImage(identification)
     const newUserProfile = await createUserProfile(
       req.user.id,       
        idNumber,
