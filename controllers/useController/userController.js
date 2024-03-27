@@ -13,6 +13,7 @@ const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword")
 const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
 const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber,updateProfile,checkuserProfile,searchById} = require("../../services/user/userServices");
 const { use } = require("../../routes/public/property/route");
+const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 /**todo user controller to auth , delete user,create, userController*/
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {
@@ -106,7 +107,7 @@ const loginUser= asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async(req,res)=>{
   
   
-  let { idNumber,identification,ethereumAddress,newPhoneNumber,address} = req.body;
+  let { idNumber,identification,ethereumAddress,newPhoneNumber,address,fullName} = req.body;
   
 
   
@@ -115,13 +116,15 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 
     const isProfileExists = await checkuserProfile(req.user.id);
     if(isProfileExists){
+      let identificationUpload = await uploadImage(identification)
       const newUserProfileupdate = await updateProfile(
         req.user.id,
-        identification,
+        identificationUpload,
           idNumber,
          ethereumAddress,
         newPhoneNumber,        
         address,
+        fullName
         
   
   
@@ -132,13 +135,15 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
       return res.status(200).json({message:"update successively"})
 
     }
+    let identificationUpload = await uploadImage(identification)
     const newUserProfile = await createUserProfile(
       req.user.id,       
        idNumber,
-       identification,
+       identificationUpload,
        ethereumAddress,
       newPhoneNumber,      
-      address  
+      address,
+      fullName  
 
 
     );

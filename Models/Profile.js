@@ -23,10 +23,10 @@ const profileSchema = new Schema(
       unique:true,
       required: true,
     },
-    // kraPin: {
-    //   type: String,
-    //   required: true,
-    // },
+    fullName: {
+      type: String,
+      required: false,
+    },
     identification: {
       type: String,
       required: false,

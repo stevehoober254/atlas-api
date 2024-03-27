@@ -87,7 +87,7 @@ const getUserById = async(user_id)=>{
 //   },
 // },
 
-const createUserProfile = async(user_id,identification,idNumber,ethereumAddress,newPhoneNumber,address)=>{
+const createUserProfile = async(user_id,identification,idNumber,ethereumAddress,newPhoneNumber,address,fullName)=>{
     const newUserProfile = new Profile({
         user:user_id,
         // gender: gender,
@@ -99,6 +99,7 @@ const createUserProfile = async(user_id,identification,idNumber,ethereumAddress,
         phoneNumber: newPhoneNumber,
         address:address,
         identification:identification,
+        fullName:fullName
         // language:language,
       });
       const  result =await newUserProfile.save();
@@ -117,7 +118,7 @@ const updateUserPhoneNumber = async (user_id,newPhoneNumber) => {
 
 //update user Profile
 
-const updateProfile = async (user_id,identification,idNumber,ethereumAddress,newPhoneNumber,address,) => {
+const updateProfile = async (user_id,identification,idNumber,ethereumAddress,newPhoneNumber,address,fullName) => {
     const update= await Profile.findOneAndUpdate(
         { user: user_id }, // Query by user ObjectId
          { $set: { 
@@ -129,7 +130,8 @@ const updateProfile = async (user_id,identification,idNumber,ethereumAddress,new
             ethereumAddress: ethereumAddress,
             phoneNumber: newPhoneNumber,
             address:address,
-            identification:identification
+            identification:identification,
+            fullName:fullName
             // language:language 
         } },
         { new: true } // To return the updated document
