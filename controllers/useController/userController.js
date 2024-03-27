@@ -106,7 +106,7 @@ const loginUser= asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async(req,res)=>{
   
   
-  let { gender,kraPin,idNumber,ethereumAddress,newPhoneNumber,dateOfBirth,kraCertificate,address,language} = req.body;
+  let { idNumber,identification,ethereumAddress,newPhoneNumber,address} = req.body;
   
 
   
@@ -117,15 +117,12 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
     if(isProfileExists){
       const newUserProfileupdate = await updateProfile(
         req.user.id,
-         gender,
-         kraPin,
-         idNumber,
+        identification,
+          idNumber,
          ethereumAddress,
-        newPhoneNumber,
-        dateOfBirth,
-        kraCertificate,
+        newPhoneNumber,        
         address,
-        language
+        
   
   
       );
@@ -136,16 +133,12 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
 
     }
     const newUserProfile = await createUserProfile(
-      req.user.id,
-       gender,
-       kraPin,
+      req.user.id,       
        idNumber,
+       identification,
        ethereumAddress,
-      newPhoneNumber,
-      dateOfBirth,
-      kraCertificate,
-      address,
-      language
+      newPhoneNumber,      
+      address  
 
 
     );

@@ -87,18 +87,19 @@ const getUserById = async(user_id)=>{
 //   },
 // },
 
-const createUserProfile = async(user_id,gender,kraPin,idNumber,ethereumAddress,newPhoneNumber,dateOfBirth,kraCertificate,address,language)=>{
+const createUserProfile = async(user_id,identification,idNumber,ethereumAddress,newPhoneNumber,address)=>{
     const newUserProfile = new Profile({
         user:user_id,
-        gender: gender,
-        kraPin: kraPin,
-        dateOfBirth:dateOfBirth,
-        kraCertificate:kraCertificate,
+        // gender: gender,
+        // kraPin: kraPin,
+        // dateOfBirth:dateOfBirth,
+        // kraCertificate:kraCertificate,
         idNumber: idNumber,
         ethereumAddress: ethereumAddress,
         phoneNumber: newPhoneNumber,
         address:address,
-        language:language,
+        identification:identification,
+        // language:language,
       });
       const  result =await newUserProfile.save();
       return !!result
@@ -116,18 +117,21 @@ const updateUserPhoneNumber = async (user_id,newPhoneNumber) => {
 
 //update user Profile
 
-const updateProfile = async (user_id, gender,kraPin,idNumber,ethereumAddress,newPhoneNumber,dateOfBirth,kraCertificate,address,language) => {
+const updateProfile = async (user_id,identification,idNumber,ethereumAddress,newPhoneNumber,address,) => {
     const update= await Profile.findOneAndUpdate(
         { user: user_id }, // Query by user ObjectId
-        { $set: { gender: gender,
-            kraPin: kraPin,
-            dateOfBirth:dateOfBirth,
-            kraCertificate:kraCertificate,
+         { $set: { 
+            // gender: gender,
+            // kraPin: kraPin,
+            // dateOfBirth:dateOfBirth,
+            // kraCertificate:kraCertificate,
             idNumber: idNumber,
             ethereumAddress: ethereumAddress,
             phoneNumber: newPhoneNumber,
             address:address,
-            language:language } },
+            identification:identification
+            // language:language 
+        } },
         { new: true } // To return the updated document
     );
 

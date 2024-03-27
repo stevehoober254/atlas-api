@@ -9,32 +9,32 @@ const profileSchema = new Schema(
       required: true,
       unique: true // Ensures each user has only one profile
     },
-    gender: {
-      type: String,
-      enum: ["male", "female", "other"],
-      required: true,
-    },
-    dateOfBirth: {
-      type: Date,
-      required: false,
-    },
+    // gender: {
+    //   type: String,
+    //   enum: ["male", "female", "other"],
+    //   required: true,
+    // },
+    // dateOfBirth: {
+    //   type: Date,
+    //   required: false,
+    // },
     idNumber: {
       type: String,
       unique:true,
       required: true,
     },
-    kraPin: {
-      type: String,
-      required: true,
-    },
+    // kraPin: {
+    //   type: String,
+    //   required: true,
+    // },
     identification: {
       type: String,
       required: false,
     },
-    kraCertificate: {
-      type: String,
-      required: false,
-    },
+    // kraCertificate: {
+    //   type: String,
+    //   required: false,
+    // },
     ethereumAddress: {
       type: String,
       unique: true,
@@ -48,10 +48,10 @@ const profileSchema = new Schema(
       type: String,
       required: false,
     },
-    language: {
-      type: String,
-      required: false,
-    },
+    // language: {
+    //   type: String,
+    //   required: false,
+    // },
   },
   { timestamps: true }
 );
