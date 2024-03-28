@@ -17,7 +17,7 @@ const {uploadImage}= require("../../upload/uploadDocuments")
 /**todo user controller to auth , delete user,create, userController*/
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {
-  const { password, fullName, phoneNumber, role } = req.body;
+  const { password, fullName, phoneNumber, role,entity } = req.body;
 
   if (isValidPhoneNumber(phoneNumber)) {
     const user = await getUserbyPhoneNumber(phoneNumber);
@@ -30,6 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
       fullName,
        role,
        phoneNumber,
+       entity
     );
 
     try {

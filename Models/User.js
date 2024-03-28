@@ -17,6 +17,11 @@ const {Schema} = mongoose;
             enum: ["public", "owner", "government", "registry"],
             default: "public",
           },
+          entity: {
+            type: String,
+            enum: ["individual", "company", "organization"],
+            default: "individual",
+          },
           phoneNumber:{
             type:String,
             unique:true,

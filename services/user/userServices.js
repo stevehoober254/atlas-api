@@ -1,12 +1,13 @@
 const User = require('../../Models/User');
 const Profile = require("../../Models/Profile")
 
-const createUser = async(passwordHash,fullName,role,phoneNumber)=>{
+const createUser = async(passwordHash,fullName,role,phoneNumber,entity)=>{
     const data = new User({
         password: passwordHash,
         fullName: fullName,
         role: role,
         phoneNumber: phoneNumber,
+        entity:entity,
       });
       return data;
 }
