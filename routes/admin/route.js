@@ -22,7 +22,7 @@ router.get('/getAllTransfers',validateToken,onlyRegistrarOrAdmin,getTransfers);
 router.get('/getUsersProfile',validateToken,onlyRegistrarOrAdmin,getUsersProfile);
 
 //return total number of properties
-router.get('/totalProperties',countTotalProperties); //add validate and onlyadmin
+router.get('/totalProperties',validateToken,countTotalProperties); //add validate and onlyadmin
 
 //get all Encumbrances
 router.get('/getAllEncumbrances',getEncumbrances); //add validate and onlyadmin
