@@ -42,7 +42,7 @@ const enlistProperty = asyncHandler(async (req, res) => {
         if (!user) {
             return res.status(401).json({ message: "User does not exist" });
         }
-
+console.log("acquisition date is:",acquisitionDate)
         const propertyDetails = {
             titleLR: titleLR,
             county: county,
