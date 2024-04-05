@@ -53,13 +53,13 @@ const enlistProperty = asyncHandler(async (req, res) => {
             ownerName: ownerName,
             leaseType: leaseType,
             acquistionType: acquistionType,
-            acquisitionDate:acquisitionDate,
             encumbrance: encumbrance,
             landRateBalance: landRateBalance,
             propertyTitleDeed: propertyTitleDeedURL,
             propertyImage: propertyImageURL,
             propertyCoordinate:propertyCoordinate,
-            userType:userType
+            userType:userType,
+            acquisitionDate:acquisitionDate
         };
 
         const propertyExists = await checkIfPropertyExists(titleLR);
