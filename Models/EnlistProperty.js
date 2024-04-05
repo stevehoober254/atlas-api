@@ -68,7 +68,10 @@ const enlistPropertySchema = new Schema(
       unique:true,
       required: true,
     },
-   
+    propertyCoordinate:{
+      type:String,
+      required:false,
+    },   
     landRateBalance: {
       type: String,
       required: false,
