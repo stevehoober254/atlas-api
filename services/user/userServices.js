@@ -23,6 +23,12 @@ const getUserProfilebyId =async(user_id)=>{
     return userProfile;
 
 }
+//check if user profile is verified
+const isProfileVerified =async(user_id)=>{
+    const isverified = await Profile.findOne({$and:[{user:user_id},{status:"verified"}]})
+    return !!isverified;
+
+}
 
 const getUserProfile =async(phoneNumber)=>{
     const user = await User.findOne({phoneNumber}).populate("userProfile").exec()
@@ -177,11 +183,48 @@ const getAllUserProfile = async()=>{
     return usersProfile
 }
 
+//get only verified user profile
+
+const  getVerifiedUsersProfile = async()=>{
+   const verifiedUsers = await Profile.find({status:"verified"});
+   return verifiedUsers ;
+}
+//get only veriied user profile
+
+const  getRejectedUsersProfile = async()=>{
+    const rejectedUsers = await Profile.find({status:"rejected"});
+    return rejectedUsers ;
+ }
+
+
 //get total users
 const  countTotalUsers = async()=>{
    let totalUsers = await User.countDocuments().exec();
    return totalUsers;
 }
+
+//to get user profile data
+const getPersonalUserProfile = async(user_Id)=>{
+    const profile = await Profile.findOne({user:user_Id})
+
+    return profile;
+
+}
+
+//verify user profile **admin
+const verifyUserProfile= async(profile_id)=>{
+    const verifyProfile = await Profile.findByIdAndUpdate( profile_id,{$set:{status:"verified"}},{new:true});
+    return !!verifyProfile;
+
+}
+
+//reject user profile **admin
+const rejecteUserProfile= async(profile_id)=>{
+    const rejectProfile = await Profile.findByIdAndUpdate( profile_id,{$set:{status:"rejected"}},{new:true});
+    return !!rejectProfile;
+
+}
+
 module.exports = {getUserbyPhoneNumber,
     getUserProfile,
     createUser,
@@ -195,4 +238,10 @@ getAllUser,
 getUserProfileByIdNumber,
 getAllUserProfile,
 searchById,
-countTotalUsers }
+countTotalUsers,
+isProfileVerified,
+rejecteUserProfile,
+verifyUserProfile,
+getPersonalUserProfile,
+getRejectedUsersProfile,
+getVerifiedUsersProfile }

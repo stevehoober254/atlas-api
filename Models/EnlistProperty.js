@@ -59,6 +59,10 @@ const enlistPropertySchema = new Schema(
       type: String,  //enum leasehold
       required: false,
     },
+    acquisitionDate: {
+      type: String,  //change to date
+      required: false,
+    },  
     titleLR: {
       type: String,
       unique:true,

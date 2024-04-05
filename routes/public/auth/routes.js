@@ -4,7 +4,7 @@ const User = require("../../../Models/User")
 
 // const mongoose = require('mongoose');
 const {isValidEmail,isValidPhoneNumber} = require("../../../hooks/email-phoneNumber");
-const { registerUser, loginUser, currentUser, updateUserProfile,logout,refresh,searchUserByIdNumber } = require("../../../controllers/useController/userController");
+const { registerUser, loginUser, currentUser, updateUserProfile,logout,refresh,searchUserByIdNumber,getPersonalUserProfile } = require("../../../controllers/useController/userController");
 const {validateToken} = require("../../../middleWare/validateTokenHandler");
 const {enlistProperty,getAllUsersIdNumber} = require("../../../controllers/Properties/public/propertyController")
 
@@ -33,6 +33,9 @@ router.get("/usersId",validateToken,getAllUsersIdNumber)
 
 //search user by id
 router.get("/search/:idNumber",searchUserByIdNumber)
+
+//getuserprofile
+router.get("/userProfile",validateToken,getPersonalUserProfile)
 
 
 

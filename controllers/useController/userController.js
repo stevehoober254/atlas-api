@@ -11,7 +11,7 @@ const {isValidPhoneNumber} = require('../../hooks/email-phoneNumber');
 const AccessToken = require("twilio/lib/jwt/AccessToken");
 const { hashPassword,compareHashPassword } = require("../../hooks/hashPassword");
 const {generateAccessToken,generateRefreshToken} = require("../../hooks/generateJWTtokens")
-const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber,updateProfile,checkuserProfile,searchById} = require("../../services/user/userServices");
+const {getUserbyPhoneNumber,getUserProfile,createUser,createUserProfile,updateUserPhoneNumber,updateProfile,checkuserProfile,searchById,getPersonalUserProfile} = require("../../services/user/userServices");
 const { use } = require("../../routes/public/property/route");
 const {uploadImage}= require("../../upload/uploadDocuments")
 /**todo user controller to auth , delete user,create, userController*/
@@ -214,6 +214,20 @@ const searchUserByIdNumber = asyncHandler(async(req,res)=>{
   }
 })
 
+//get userPersonalProfile
+
+const userPersonalProfile = asyncHandler(async (req, res) => {
+ try{
+   const profile = await getPersonalUserProfile(req.user.id);
+   if(!profile) return res.status(404).json( {message:'No Profile Found'} );
+   res.status(200).json(profile)
+ }catch(erro){
+  return res.status(500).json({ message: 'Internal server error' });
+
+ }
+
+})
+
 
 const logout =async (req,res)=>{
   const cookies = req.cookies;
@@ -230,4 +244,5 @@ module.exports = { registerUser,
   updateUserProfile,
   logout,
   refresh,
-searchUserByIdNumber };
+searchUserByIdNumber,
+getPersonalUserProfile };

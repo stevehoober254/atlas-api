@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler")
-const {getUserbyPhoneNumber, getUserById,getUserProfilebyId,getAllUser,getUserProfileByIdNumber} = require("../../../services/user/userServices")
+const {getUserbyPhoneNumber, getUserById,getUserProfilebyId,getAllUser,getUserProfileByIdNumber,isProfileVerified} = require("../../../services/user/userServices")
 const {getAllEnlistedProperties} = require("../../../services/properties/admin/enlistPropertyServices")
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
@@ -27,6 +27,7 @@ const enlistProperty = asyncHandler(async (req, res) => {
         propertyTitleDeed,
         propertyImage,
         propertyCoordinate,
+        acquisitionDate,        
         userType
         
     } = req.body;
@@ -50,6 +51,7 @@ const enlistProperty = asyncHandler(async (req, res) => {
             ownerName: ownerName,
             leaseType: leaseType,
             acquistionType: acquistionType,
+            acquisitionDate:acquisitionDate,
             encumbrance: encumbrance,
             landRateBalance: landRateBalance,
             propertyTitleDeed: propertyTitleDeedURL,
@@ -142,14 +144,24 @@ try{
     if(!userProfile){
         return res.status(401).json({message:"user must complete their profile"});
     }
+    
+    //check if the sender profile is verified
+
+    const profileVerified = await isProfileVerified(req.user.id)
+    if(!profileVerified){
+        return res.status(401).json({message:"profile need to be verify"});
+    }
+
 
 //get new racipient profile by id Number    
-   const newUserProfile = await getUserProfileByIdNumber(idNumber)
-   
-
-    
+   const newUserProfile = await getUserProfileByIdNumber(idNumber)    
     if(!newUserProfile){
         return res.status(401).json({message:"The recipient need to complete their profile"});
+    }
+//check the recepient if profile is verified
+    const recepientProfileVerified = await isProfileVerified(newUserProfile.user)
+    if(!recepientProfileVerified){
+        return res.status(401).json({message:`user ${newUserProfile.idNumber} need to verify profile`});
     }
 
     //get user profile name from user model

@@ -47,6 +47,11 @@ const profileSchema = new Schema(
       type: String,
       required: false,
     },
+    status: {
+      type: String,
+      enum: ["waiting","verified", "rejected"],
+      default: "waiting",
+    },
     // language: {
     //   type: String,
     //   required: false,

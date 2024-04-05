@@ -4,8 +4,9 @@ const router = express.Router();
 
 const {validateToken} = require("../../middleWare/validateTokenHandler");
 const {onlyRegistrarOrAdmin} = require("../../middleWare/onlyRegistrarOradmin")
+const {onlyAdmin} = require("../../middleWare/onlyAdmin")
 const {getAllPropertiesEnlisted,getTransfers,countTotalProperties,getEncumbrances} = require("../../controllers/Properties/admin/propertyController")
-const {getUsersProfile} = require("../../controllers/Properties/admin/usersProfileController")
+const {getUsersProfile,rejectProfile,verifyProfile,getRejectedUsersProfiles,getVerifiedUsersProfiles} = require("../../controllers/Properties/admin/usersProfileController")
 
 
 
@@ -26,6 +27,21 @@ router.get('/totalProperties',validateToken,countTotalProperties); //add validat
 
 //get all Encumbrances
 router.get('/getAllEncumbrances',getEncumbrances); //add validate and onlyadmin
+
+//get all verified profiles
+router.get('/verifiedProfiles',validateToken,onlyAdmin,getVerifiedUsersProfiles); //add validate and onlyadmin
+
+//get all verified profiles
+router.get('/rejectedProfiles',validateToken,onlyAdmin,getRejectedUsersProfiles); //add validate and onlyadmin
+
+//verify profile
+
+router.get('/verfyProfile',validateToken,onlyAdmin,verifyProfile); //add validate and onlyadmin
+
+//reject profile
+
+router.get('/rejectProfile',validateToken,onlyAdmin,rejectProfile); //add validate and onlyadmin
+
 
 
 
