@@ -246,4 +246,4 @@ module.exports = { registerUser,
   logout,
   refresh,
 searchUserByIdNumber,
-getPersonalUserProfile };
+userPersonalProfile };
