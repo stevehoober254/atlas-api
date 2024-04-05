@@ -27,6 +27,10 @@ const profileSchema = new Schema(
       type: String,
       required: false,
     },
+    entity: {
+      type: String,
+      required: false,
+    },
     identification: {
       type: String,
       required: false,

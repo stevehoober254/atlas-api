@@ -108,7 +108,7 @@ const loginUser= asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async(req,res)=>{
   
   
-  let { idNumber,identification,ethereumAddress,newPhoneNumber,email,fullName} = req.body;
+  let { idNumber,identification,ethereumAddress,newPhoneNumber,email,fullName,entity} = req.body;
   
 
   
@@ -125,7 +125,8 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
          ethereumAddress,
         newPhoneNumber,        
         email,
-        fullName
+        fullName,
+        entity
         
   
   
@@ -145,7 +146,8 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
        ethereumAddress,
       newPhoneNumber,      
       email,
-      fullName  
+      fullName,
+      entity  
 
 
     );
