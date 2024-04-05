@@ -8,7 +8,9 @@ const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProper
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
-
+// acquistionDate:item.acquistionDate,
+// userType:item.userType,
+// titleType:item.titleType,
 
 const enlistProperty = asyncHandler(async (req, res) => {
     const {

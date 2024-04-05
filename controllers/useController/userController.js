@@ -108,13 +108,13 @@ const loginUser= asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async(req,res)=>{
   
   
-  let { idNumber,identification,ethereumAddress,newPhoneNumber,address,fullName} = req.body;
+  let { idNumber,identification,ethereumAddress,newPhoneNumber,email,fullName} = req.body;
   
 
   
 
   try{
-
+    
     const isProfileExists = await checkuserProfile(req.user.id);
     if(isProfileExists){
       const identificationUpload = await uploadImage(identification)
@@ -124,7 +124,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
           idNumber,
          ethereumAddress,
         newPhoneNumber,        
-        address,
+        email,
         fullName
         
   
@@ -136,6 +136,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
       return res.status(200).json({message:"update successively"})
 
     }
+    
     const identificationUpload = await uploadImage(identification)
     const newUserProfile = await createUserProfile(
       req.user.id,       
@@ -143,7 +144,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
        identificationUpload,
        ethereumAddress,
       newPhoneNumber,      
-      address,
+      email,
       fullName  
 
 

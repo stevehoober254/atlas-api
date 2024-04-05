@@ -43,7 +43,7 @@ const profileSchema = new Schema(
       type: String,
       required: true,
     },
-    address: {
+    email: {
       type: String,
       required: false,
     },
