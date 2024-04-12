@@ -36,7 +36,7 @@ router.get('/rejectedProfiles',validateToken,onlyAdmin,getRejectedUsersProfiles)
 
 //verify profile
 
-router.get('/verfyProfile',validateToken,onlyAdmin,verifyProfile); //add validate and onlyadmin
+router.get('/verifyProfile',validateToken,onlyAdmin,verifyProfile); //add validate and onlyadmin
 
 //reject profile
 
