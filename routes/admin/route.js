@@ -36,11 +36,11 @@ router.get('/rejectedProfiles',validateToken,onlyAdmin,getRejectedUsersProfiles)
 
 //verify profile
 
-router.get('/verifyProfile',validateToken,onlyAdmin,verifyProfile); //add validate and onlyadmin
+router.post('/verifyProfile',validateToken,onlyAdmin,verifyProfile); //add validate and onlyadmin
 
 //reject profile
 
-router.get('/rejectProfile',validateToken,onlyAdmin,rejectProfile); //add validate and onlyadmin
+router.post('/rejectProfile',validateToken,onlyAdmin,rejectProfile); //add validate and onlyadmin
 
 
 
