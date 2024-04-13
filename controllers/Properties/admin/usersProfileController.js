@@ -40,9 +40,9 @@ const verifyProfile = asyncHandler(async(req,res)=>{
 const rejectProfile = asyncHandler(async(req,res)=>{
     const {profile_id} = req.body;
     try{
-        const rejectprofile = await rejectUserProfile(profile_id);
+        const profileReject = await rejectUserProfile(profile_id);
 
-        if(!rejectprofile){
+        if(!profileReject){
             return res.status(401).json({success: false , message :"fail to  reject profile"})
 
         }
