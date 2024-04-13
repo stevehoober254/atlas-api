@@ -6,7 +6,7 @@ const {validateToken} = require("../../middleWare/validateTokenHandler");
 const {onlyRegistrarOrAdmin} = require("../../middleWare/onlyRegistrarOradmin")
 const {onlyAdmin} = require("../../middleWare/onlyAdmin")
 const {getAllPropertiesEnlisted,getTransfers,countTotalProperties,getEncumbrances} = require("../../controllers/Properties/admin/propertyController")
-const {getUsersProfile,rejectProfile,verifyProfile,getRejectedUsersProfiles,getVerifiedUsersProfiles} = require("../../controllers/Properties/admin/usersProfileController")
+const {getUsersProfile,rejectProfile,verifyProfile,getRejectedUsersProfiles,getVerifiedUsersProfiles,rejectProfileTwo} = require("../../controllers/Properties/admin/usersProfileController")
 
 
 
@@ -41,6 +41,7 @@ router.post('/verifyProfile',validateToken,onlyAdmin,verifyProfile); //add valid
 //reject profile
 
 router.post('/rejectProfile',validateToken,onlyAdmin,rejectProfile); //add validate and onlyadmin
+router.post('/rejectProfiletwo',validateToken,onlyAdmin,rejectProfileTwo); //add validate and onlyadmin
 
 
 
