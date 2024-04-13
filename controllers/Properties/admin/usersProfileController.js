@@ -49,7 +49,7 @@ const rejectProfile = asyncHandler(async(req,res)=>{
         return res.status(200).json({success:true});
 
     }catch(error){
-        return res.status(500).json({success: false , message :error})
+        return res.status(500).json({success: false , message :"Try another time!"})
 
     }
 })
