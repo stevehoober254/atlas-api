@@ -221,7 +221,7 @@ const verifyUserProfile= async(profile_id)=>{
 }
 
 //reject user profile **admin
-const rejecteUserProfile= async(profile_id)=>{
+const rejectUserProfile= async(profile_id)=>{
     const rejectProfile = await Profile.findByIdAndUpdate( profile_id,{$set:{status:"rejected"}},{new:true});
     return !!rejectProfile;
 
@@ -242,7 +242,7 @@ getAllUserProfile,
 searchById,
 countTotalUsers,
 isProfileVerified,
-rejecteUserProfile,
+rejectUserProfile,
 verifyUserProfile,
 getPersonalUserProfile,
 getRejectedUsersProfile,
