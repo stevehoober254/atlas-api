@@ -1,4 +1,4 @@
-const {getAllUserProfile,verifyUserProfile,rejectUserProfile,getRejectedUsersProfile,getVerifiedUsersProfile,rejectUserProfiletwo} = require("../../../services/user/userServices")
+const {getAllUserProfile,verifyUserProfile,getRejectedUsersProfile,getVerifiedUsersProfile,rejectUserProfile} = require("../../../services/user/userServices")
 
 const asyncHandler = require("express-async-handler")
 
@@ -36,32 +36,16 @@ const verifyProfile = asyncHandler(async(req,res)=>{
     }
 })
 
-//reject
-const rejectProfile = asyncHandler(async(req,res)=>{
-    const {profile_id} = req.body;
-    try{
-        const profileReject = await rejectUserProfile(profile_id);
 
-        if(!profileReject){
-            return res.status(401).json({success: false , message :"fail to  reject profile"})
-
-        }
-        return res.status(200).json({success:true});
-
-    }catch(error){
-        return res.status(500).json({success: false , message :"Try another time!"})
-
-    }
-})
 
 //reject two
 
-const rejectProfileTwo = asyncHandler(async(req,res)=>{
+const rejectProfile = asyncHandler(async(req,res)=>{
     const {profile_id} = req.body;
     try{
-        const verifyprofile = await rejectUserProfiletwo(profile_id);
+        const rejectresult = await rejectUserProfile(profile_id);
 
-        if(!verifyprofile){
+        if(!rejectresult){
             return res.status(401).json({success: false , message :"fail to verify profile"})
 
         }
@@ -113,5 +97,5 @@ module.exports={
     verifyProfile,
     getVerifiedUsersProfiles,
     getRejectedUsersProfiles,
-    rejectProfileTwo
+   
 }
