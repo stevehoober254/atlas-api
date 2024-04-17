@@ -4,7 +4,7 @@ const {getAllEnlistedProperties} = require("../../../services/properties/admin/e
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
-const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified,searchPropertyByTitleNumber,updateProperty,searchProperty} = require("../../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified,searchPropertyByTitleNumber,updateProperty,searchProperty,getverifiedProperties} = require("../../../services/properties/public/properties");
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
@@ -294,14 +294,30 @@ try{
 
 
 }catch(error){
-    console.log("the error is",error)
+   
     return res.status(500).json({message:"Failed try another time"});
-
-
 }
 
+})
+
+//get the first 10 verified properties
+
+const getOnlyFirstVerifiedProperties = asyncHandler(async(req,res)=>{
+
+try{
+    const properties = await getverifiedProperties();
+    if(!properties || properties.length ==0){
+        return res.status(401).json({message:"no verified property yet"});
+
+    }
+    return res.status(200).json(properties);
+
+}catch(error){
+    return res.status(500).json({message:"Failed try another time"});
+}
 
 })
+
 
 module.exports ={
     enlistProperty,
@@ -311,6 +327,7 @@ module.exports ={
     getAllUsersIdNumber,
     searchPropertyTitle,
     updatePropertySize,
-    searchForProperty
+    searchForProperty,
+    getOnlyFirstVerifiedProperties
     
 }

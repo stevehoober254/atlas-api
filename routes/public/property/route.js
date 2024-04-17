@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {validateToken} = require("../../../middleWare/validateTokenHandler")
-const {getAllUserProperty,verifyForProcessing,enlistProperty,transferPropertyOwnership,searchPropertyTitle,updatePropertySize,searchForProperty} = require("../../../controllers/Properties/public/propertyController")
+const {getAllUserProperty,verifyForProcessing,enlistProperty,transferPropertyOwnership,searchPropertyTitle,updatePropertySize,searchForProperty,getOnlyFirstVerifiedProperties} = require("../../../controllers/Properties/public/propertyController")
 
 router.get("/userProperties",validateToken,getAllUserProperty);
 
@@ -21,6 +21,9 @@ router.post("/updateProperty",validateToken,updatePropertySize) //change to patc
 
 //search for property
 router.get("/searchProperty",validateToken,searchForProperty)
+
+//get first 10 verified properties
+router.get("/verifiedProperties",getOnlyFirstVerifiedProperties) //anyone can view this
 
 
 

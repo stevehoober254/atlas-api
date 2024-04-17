@@ -118,6 +118,14 @@ const updateProperty = async(property_id,newSize)=>{
 
 }
 
+//get the first 10 properties
+const getverifiedProperties =  async()=>{
+    const property = await EnlistProperty.find({status:'verified'}).select(["sizeHa",'titleLR','propertyImage']).limit(10).exec();
+
+    return property;
+
+}
+
 module.exports = {
     getAllUserEnlistedProperties,
     verifyPropertyForProcessing,
@@ -128,5 +136,6 @@ module.exports = {
     doesUserOwnProperty,
     searchPropertyByTitleNumber,
     updateProperty,
-    searchProperty
+    searchProperty,
+    getverifiedProperties
 };
