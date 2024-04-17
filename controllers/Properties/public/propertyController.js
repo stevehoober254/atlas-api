@@ -221,7 +221,7 @@ const searchPropertyTitle = asyncHandler(async(req,res)=>{
 //search for property by id -> requires billing
 
 const searchForProperty = asyncHandler(async(req,res)=>{
-    const {landReferenceNumber} = req.body();
+       const {landReferenceNumber} = req.params
     try{
         const user = getUserById(req.user.id);
         if(!user){
