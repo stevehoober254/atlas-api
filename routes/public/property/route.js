@@ -17,10 +17,10 @@ router.post("/transfer",validateToken,transferPropertyOwnership)
 router.get("/search/:titleLR",searchPropertyTitle); //validation in production
 
 //update Property size
-router.post("/updateProperty",validateToken,updatePropertySize)
+router.post("/updateProperty",validateToken,updatePropertySize) //change to patch
 
 //search for property
-router.post("/searchProperty/:titleLR",validateToken,searchForProperty)
+router.get("/searchProperty",validateToken,searchForProperty)
 
 
 

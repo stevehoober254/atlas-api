@@ -215,7 +215,7 @@ const getPersonalUserProfile = async(user_Id)=>{
 
 //verify user profile **admin
 const verifyUserProfile = async(profile_id)=>{
-    const verifyProfile = await Profile.findByIdAndUpdate( profile_id,{$set:{status:"verified"}},{new:true});
+    const verifyProfile = await Profile.findByIdAndUpdate({_id:profile_id},{$set:{status:"verified"}},{new:true});
     return !!verifyProfile;
 
 }
@@ -228,7 +228,7 @@ const verifyUserProfile = async(profile_id)=>{
 // }
 //verify user profile **admin
 const rejectUserProfile = async(profile_id)=>{
-    const profile = await Profile.findByIdAndUpdate( profile_id,{$set:{status:"rejected"}},{new:true});
+    const profile = await Profile.findByIdAndUpdate({_d:profile_id},{$set:{status:"rejected"}},{new:true});
     return !!profile;
 
 }

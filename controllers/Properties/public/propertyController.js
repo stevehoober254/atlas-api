@@ -221,13 +221,13 @@ const searchPropertyTitle = asyncHandler(async(req,res)=>{
 //search for property by id -> requires billing
 
 const searchForProperty = asyncHandler(async(req,res)=>{
-       const {landReferenceNumber} = req.params
+       const {titleLR} = req.query
     try{
-        const user = getUserById(req.user.id);
+        const user =await getUserById(req.user.id);
         if(!user){
             res.status(401).json({message:"User need to create an account"})
         }
-        const property = await searchProperty(landReferenceNumber);
+        const property = await searchProperty(titleLR);
         if(!property || property.lenghth ==0){
             res.status(401).json({message:"Property not Enlisted"})
         }
@@ -263,18 +263,19 @@ const getAllUsersIdNumber =asyncHandler(async(req,res)=>{
  */
 
 const updatePropertySize =asyncHandler(async(req,res)=>{
-const {property_id,sizeHa,landReferenceNumber} = req.body();
+const {property_id,sizeHa,titleLR} = req.body;
+
 
 try{
     //check if propery exists
     
-    const propertyExists = await checkIfPropertyExists(landReferenceNumber);
+    const propertyExists = await checkIfPropertyExists(titleLR);
     if (!propertyExists) {
         return res.status(401).json({ message: "Property does not exists" });
     }
 
     //check if user owns the property
-    const ownProperty = await doesUserOwnProperty(landReferenceNumber,req.user.id);
+    const ownProperty = await doesUserOwnProperty(titleLR,req.user.id);
     if (!ownProperty) {
         return res.status(401).json({ message: "You don't own this property" });
     }
@@ -293,6 +294,7 @@ try{
 
 
 }catch(error){
+    console.log("the error is",error)
     return res.status(500).json({message:"Failed try another time"});
 
 
