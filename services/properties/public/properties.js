@@ -103,8 +103,8 @@ const searchPropertyByTitleNumber = async(landReferenceNumber)=>{
 
 //update property
 
-const updateProperty = async(size)=>{
-    const property = await EnlistProperty.findOneAndUpdate({size:size},{$set:{size:size}},{new:true}).exec();
+const updateProperty = async(property_id,newSize)=>{
+    const property = await EnlistProperty.findOneAndUpdate(property_id,{$set:{sizeHa:newSize}},{new:true}).exec();
 
     return !!property;
 

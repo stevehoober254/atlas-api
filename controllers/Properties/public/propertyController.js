@@ -4,7 +4,7 @@ const {getAllEnlistedProperties} = require("../../../services/properties/admin/e
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
-const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified,searchPropertyByTitleNumber} = require("../../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified,searchPropertyByTitleNumber,updateProperty} = require("../../../services/properties/public/properties");
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
@@ -233,6 +233,51 @@ const getAllUsersIdNumber =asyncHandler(async(req,res)=>{
         return res.status(500).json({message:"Failed try another time"});
 
     }
+})
+
+// updateproperty controller
+/**
+ * the user must exists
+ * the user must be owing the property
+ */
+
+const updatePropertySize =asyncHandler(async(req,res)=>{
+const {property_id,sizeHa,landReferenceNumber} = req.body();
+
+try{
+    //check if propery exists
+    
+    const propertyExists = await checkIfPropertyExists(landReferenceNumber);
+    if (!propertyExists) {
+        return res.status(401).json({ message: "Property does not exists" });
+    }
+
+    //check if user owns the property
+    const ownProperty = await doesUserOwnProperty(landReferenceNumber,req.user.id);
+    if (!ownProperty) {
+        return res.status(401).json({ message: "You don't own this property" });
+    }
+    //check if user exists
+    const user = await getUserById(req.user.id)
+    //check if the user is authorized to
+    if(!user){
+        return res.status(401).json({message:"user not authorize to transfer"});
+    }
+    //update the property size
+    const propertyUpdate = await updateProperty(property_id,sizeHa);
+    if(!propertyUpdate){
+        return res.status(401).json({message:"Failed to update property"});
+    }
+    return res.status(200).json({message:"Property size updated successfully"});
+
+
+}catch(error){
+    return res.status(500).json({message:"Failed try another time"});
+
+
+}
+
+
 })
 
 module.exports ={
