@@ -101,6 +101,14 @@ const searchPropertyByTitleNumber = async(landReferenceNumber)=>{
     return propertyTitle;
 }
 
+//search property by title and returns all the fields
+const searchProperty = async(landReferenceNumber)=>{
+
+    const property = await EnlistProperty.findOne({titleLR:landReferenceNumber}).exec()
+
+    return property;
+}
+
 //update property
 
 const updateProperty = async(property_id,newSize)=>{
@@ -119,5 +127,6 @@ module.exports = {
     isPropertyVerified,
     doesUserOwnProperty,
     searchPropertyByTitleNumber,
-    updateProperty
+    updateProperty,
+    searchProperty
 };
