@@ -4,7 +4,7 @@ const {getAllEnlistedProperties} = require("../../../services/properties/admin/e
 const {getAllRegistryEnlistedProperties} = require("../../../services/properties/registrar/registry")
 const {handleUploads,uploadImage}= require("../../../upload/uploadDocuments")
 const {convertBase64} = require("../../../hooks/fileupload")
-const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified,searchPropertyByTitleNumber,updateProperty} = require("../../../services/properties/public/properties");
+const {getAllUserEnlistedProperties,verifyPropertyForProcessing,userEnlistProperty,checkIfPropertyExists,updatePropertyNewOwner,doesUserOwnProperty, isPropertyVerified,searchPropertyByTitleNumber,updateProperty,searchProperty} = require("../../../services/properties/public/properties");
 const { transferProperty } = require("../../../services/properties/transfer/transfer")
 
 
@@ -218,6 +218,27 @@ const searchPropertyTitle = asyncHandler(async(req,res)=>{
 
 })
 
+//search for property by id -> requires billing
+
+const searchForProperty = asyncHandler(async(req,res)=>{
+    const {landReferenceNumber} = req.body();
+    try{
+        const user = getUserById(req.user.id);
+        if(!user){
+            res.status(401).json({message:"User need to create an account"})
+        }
+        const property = await searchProperty(landReferenceNumber);
+        if(!property || property.lenghth ==0){
+            res.status(401).json({message:"Property not Enlisted"})
+        }
+        res.status(200).json(property);
+
+    }catch(error){
+        return res.status(500).json({message:"Failed try another time"});
+
+    }
+})
+
 
 //get all user profile
 
@@ -286,6 +307,8 @@ module.exports ={
     verifyForProcessing,
     transferPropertyOwnership,
     getAllUsersIdNumber,
-    searchPropertyTitle
+    searchPropertyTitle,
+    updatePropertySize,
+    searchForProperty
     
 }
