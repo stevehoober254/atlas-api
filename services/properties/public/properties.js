@@ -126,6 +126,14 @@ const getverifiedProperties =  async()=>{
 
 }
 
+//get All properties verified
+const getAllverifiedProperties =  async()=>{
+    const property = await EnlistProperty.find({status:'verified'}).exec();
+
+    return property;
+
+}
+
 module.exports = {
     getAllUserEnlistedProperties,
     verifyPropertyForProcessing,
@@ -137,5 +145,6 @@ module.exports = {
     searchPropertyByTitleNumber,
     updateProperty,
     searchProperty,
-    getverifiedProperties
+    getverifiedProperties,
+    getAllverifiedProperties
 };
