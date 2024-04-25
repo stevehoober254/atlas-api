@@ -20,7 +20,7 @@ router.get("/search/:titleLR",searchPropertyTitle); //validation in production
 router.post("/updateProperty",validateToken,updatePropertySize) //change to patch
 
 //search for property
-router.get("/searchProperty",validateToken,searchForProperty)
+router.get("/searchProperty/:titleLR",validateToken,searchForProperty)
 
 //get first 10 verified properties
 router.get("/verifiedProperties",getOnlyFirstVerifiedProperties) //anyone can view this
