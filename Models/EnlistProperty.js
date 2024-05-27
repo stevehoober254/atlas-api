@@ -34,7 +34,7 @@ const enlistPropertySchema = new Schema(
       type: String,
       required: true,
     },
-    
+
     leaseType: {
       type: String, /** enum Freehold,     Leasehold,     Tenancy,      Sublease,      Occupancy,      Custom */
       required: false,
@@ -44,7 +44,7 @@ const enlistPropertySchema = new Schema(
       required: false,
     },
     encumbrance: {
-      type: String, 
+      type: String,
       required: true,
     },
     sizeHa: {
@@ -62,29 +62,34 @@ const enlistPropertySchema = new Schema(
     acquisitionDate: {
       type: String,  //change to date
       required: false,
-    },  
+    },
     titleLR: {
       type: String,
-      unique:true,
+      unique: true,
       required: true,
     },
-    propertyCoordinate:{
-      type:String,
-      required:false,
-    },   
+    propertyAlias: {
+      type: String,
+      unique: false,
+      required: false,
+    },
+    propertyCoordinate: {
+      type: String,
+      required: false,
+    },
     landRateBalance: {
       type: String,
       required: false,
     },
     registrationSection: {
-        type: String,
-        required: false,
-      },
+      type: String,
+      required: false,
+    },
     status: {
-        type: String,
-        enum: ["waiting","processing", "verified", "rejected"],
-        default: "waiting",
-      },
+      type: String,
+      enum: ["waiting", "processing", "verified", "rejected"],
+      default: "waiting",
+    },
   },
   /**
    * fields ***
