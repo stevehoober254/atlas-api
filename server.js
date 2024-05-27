@@ -28,7 +28,7 @@ const PORT = process.env.PORT || 4000;
 })();
 
 // CORS configuration
-const allowedOrigins = ["http://localhost:3000", "https://atlas-ke.net", "http://localhost:3000/", "https://atlas-ke.net/"];
+const allowedOrigins = ["http://localhost:3000", "https://atlas-ke.net", "http://localhost:3000/", "https://atlas-ke.net/", "https://www.atlas-ke.net"];
 App.use(cors({
     origin: allowedOrigins,
     exposedHeaders: 'Set-Cookie'
