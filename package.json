@@ -12,7 +12,7 @@
     "url": "git+https://github.com/AtlasKE-Chain/atlas-backend-apis.git"
   },
   "engines": {
-    "node": "18.20.10"
+    "node": "18.20.1"
   },
   "author": "AtlasKe",
   "license": "ISC",
