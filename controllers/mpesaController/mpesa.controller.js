@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 require('dotenv').config();
 const axios = require('axios');
+const { parsePhoneNumber, getNumberFrom } = require('awesome-phonenumber');
 
 const { MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET, MPESA_SHORT_CODE, MPESA_PASSKEY } = process.env;
 
@@ -24,6 +25,9 @@ const getMpesaToken = asyncHandler(async (req, res) => {
 // Function to initiate Mpesa STK Push
 const initiateSTKPush = asyncHandler(async (req, res) => {
     const { phoneNumber, amount } = req.body;
+
+    const formattedNumber = formatPhoneNumber(phoneNumber)
+
     const accessToken = req.headers.authorization.split(" ")[1]; // Uses Bearer token
     const url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
     // const timestamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, -5);
@@ -38,7 +42,7 @@ const initiateSTKPush = asyncHandler(async (req, res) => {
         Amount: amount,
         PartyA: phoneNumber,
         PartyB: MPESA_SHORT_CODE,
-        PhoneNumber: phoneNumber,
+        PhoneNumber: formattedNumber,
         CallBackURL: 'https://yourdomain.com/callback',
         AccountReference: 'Atlas KE',
         TransactionDesc: 'Payment of Atlas KE Account'
@@ -88,6 +92,27 @@ const mpesaCallback = asyncHandler(async (req, res) => {
         res.status(400).json({ message: `Transaction failed with message: ${ResultDesc}` });
     }
 });
+
+
+// format phone number
+function formatPhoneNumber(phoneNumber) {
+    // Remove any white spaces
+    phoneNumber = phoneNumber.replace(/\s+/g, '');
+
+    if (phoneNumber.startsWith('+254')) {
+        // Remove the '+' sign
+        phoneNumber = phoneNumber.substring(1);
+    } else if (phoneNumber.startsWith('254')) {
+        // No need to modify, already starts with 254
+    } else if (phoneNumber.startsWith('07')) {
+        // Replace leading 0 with 254
+        phoneNumber = '254' + phoneNumber.substring(1);
+    } else {
+        throw new Error('Invalid Kenyan phone number format');
+    }
+
+    return phoneNumber;
+}
 
 
 module.exports = { getMpesaToken, initiateSTKPush, mpesaCallback };
