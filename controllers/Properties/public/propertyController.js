@@ -16,6 +16,7 @@ const enlistProperty = asyncHandler(async (req, res) => {
     const {
         phoneNumber,
         titleLR,
+        propertyAlias,
         county,
         registrationSection,
         blockNumber,
@@ -45,6 +46,7 @@ const enlistProperty = asyncHandler(async (req, res) => {
 
         const propertyDetails = {
             titleLR: titleLR,
+            propertyAlias: propertyAlias,
             county: county,
             registrationSection: registrationSection,
             blockNumber: blockNumber,
