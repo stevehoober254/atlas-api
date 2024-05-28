@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-
-
 const enlistPropertySchema = new Schema(
   {
     user: {
@@ -34,7 +32,6 @@ const enlistPropertySchema = new Schema(
       type: String,
       required: true,
     },
-
     leaseType: {
       type: String, /** enum Freehold,     Leasehold,     Tenancy,      Sublease,      Occupancy,      Custom */
       required: false,
