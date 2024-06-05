@@ -43,7 +43,7 @@ const initiateSTKPush = asyncHandler(async (req, res) => {
         PartyA: phoneNumber,
         PartyB: MPESA_SHORT_CODE,
         PhoneNumber: formattedNumber,
-        CallBackURL: 'https://yourdomain.com/callback',
+        CallBackURL: process.env.MPESA_CALLBACK_URL || "",
         AccountReference: 'Atlas KE',
         TransactionDesc: 'Payment of Atlas KE Account'
     };
@@ -55,6 +55,9 @@ const initiateSTKPush = asyncHandler(async (req, res) => {
                 'Content-Type': 'application/json'
             }
         });
+        // create a transaction record
+
+        // return response
         res.status(200).json({ message: 'STK Push initiated successfully', response: response.data });
     } catch (error) {
         console.log(error)
@@ -76,6 +79,10 @@ const mpesaCallback = asyncHandler(async (req, res) => {
         const transactionId = metadata.find(item => item.Name === 'MpesaReceiptNumber').Value;
 
         try {
+
+            // update transaction
+            // update user wallet
+
             // Assuming User model has a method to update wallet and it uses phoneNumber to identify the user
             const user = await User.findOne({ phoneNumber });
             if (user) {
