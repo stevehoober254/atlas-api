@@ -69,6 +69,7 @@ const enlistPropertySchema = new Schema(
       type: String,
       unique: false,
       required: false,
+      default: null,
     },
     propertyCoordinate: {
       type: String,
