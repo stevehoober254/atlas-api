@@ -209,7 +209,9 @@ const countTotalUsers = async () => {
 
 //to get user profile data
 const getPersonalUserProfile = async (user_Id) => {
-    const profile = await Profile.findOne({ user: user_Id })
+    // const profile = await Profile.findOne({ user: user_Id })
+    console.log('user', user_Id)
+    const profile = await Profile.findOne({ user: user_Id });
 
     return profile;
 

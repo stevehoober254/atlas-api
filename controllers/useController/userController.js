@@ -121,28 +121,32 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
     const isProfileExists = await checkuserProfile(req.user.id);
     if (isProfileExists) {
-      const identificationUpload = await uploadImage(identification)
-      const newUserProfileupdate = await updateProfile(
-        req.user.id,
-        identificationUpload,
-        idNumber,
-        ethereumAddress,
-        newPhoneNumber,
-        email,
-        fullName,
-        entity
-
-
-
-      );
-      if (!newUserProfileupdate) {
-        return res.status(401).json("failed to  update profile")
-      }
-      return res.status(200).json({ message: "update successively" })
-
+        let identificationUpload = ""
+        if (identification.startsWith('http') || identification.startsWith('https')) {
+          identificationUpload = await uploadImage(identification)
+        }else{
+          identificationUpload = identification
+        }
+        const newUserProfileupdate = await updateProfile(
+          req.user.id,
+          identificationUpload,
+          idNumber,
+          ethereumAddress,
+          newPhoneNumber,
+          email,
+          fullName,
+          entity
+        );
+        if (!newUserProfileupdate) {
+          return res.status(401).json("failed to  update profile")
+        }
+        return res.status(200).json({ message: "update successively" })
     }
 
-    const identificationUpload = await uploadImage(identification)
+    let identificationUpload = "";
+    if(identification.length>0){
+       identificationUpload = await uploadImage(identification)
+    }
     const newUserProfile = await createUserProfile(
       req.user.id,
       idNumber,
@@ -225,7 +229,7 @@ const searchUserByIdNumber = asyncHandler(async (req, res) => {
 const userPersonalProfile = asyncHandler(async (req, res) => {
   try {
     const profile = await getPersonalUserProfile(req.user.id);
-    if (!profile) return res.status(404).json({ message: 'No Profile Found' });
+    if (!profile) return res.status(400).json({ message: 'No Profile Found' });
     res.status(200).json(profile)
   } catch (erro) {
     return res.status(500).json({ message: 'Internal server error' });
