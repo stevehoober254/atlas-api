@@ -21,6 +21,7 @@ const sendOTP = asyncHandler(async (req, res, next) => {
     console.log('SMS', smsOptions);
 
     sendSMS(smsOptions).then((response) => {
+        console.log('African stalking',response)
             res.status(200).json({ success: true, message: 'OTP code sent' })
     }).catch((err) => {
         console.log(err);

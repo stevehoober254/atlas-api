@@ -36,6 +36,17 @@ const registerUser = asyncHandler(async (req, res) => {
     try {
       const dataToSave = await data.save();
       console.log('Saved data:', dataToSave);
+      const newUserProfile = await createUserProfile(
+        dataToSave.id,
+        '',
+        '',
+        '0x8787STEWV545447448484848DDAJWWBWEVFE',
+        phoneNumber,
+        '',
+        fullName,
+        entity
+      );
+      console.log('New profile', newUserProfile)
       res.status(200).json("Register successfully");
     } catch (error) {
       console.log('Save error:', error);
@@ -121,31 +132,31 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
     const isProfileExists = await checkuserProfile(req.user.id);
     if (isProfileExists) {
-        let identificationUpload = ""
-        if (identification.startsWith('http') || identification.startsWith('https')) {
-          identificationUpload = await uploadImage(identification)
-        }else{
-          identificationUpload = identification
-        }
-        const newUserProfileupdate = await updateProfile(
-          req.user.id,
-          identificationUpload,
-          idNumber,
-          ethereumAddress,
-          newPhoneNumber,
-          email,
-          fullName,
-          entity
-        );
-        if (!newUserProfileupdate) {
-          return res.status(401).json("failed to  update profile")
-        }
-        return res.status(200).json({ message: "update successively" })
+      let identificationUpload = ""
+      if (identification.startsWith('http') || identification.startsWith('https')) {
+        identificationUpload = await uploadImage(identification)
+      } else {
+        identificationUpload = identification
+      }
+      const newUserProfileupdate = await updateProfile(
+        req.user.id,
+        identificationUpload,
+        idNumber,
+        ethereumAddress,
+        newPhoneNumber,
+        email,
+        fullName,
+        entity
+      );
+      if (!newUserProfileupdate) {
+        return res.status(401).json("failed to  update profile")
+      }
+      return res.status(200).json({ message: "update successively" })
     }
 
     let identificationUpload = "";
-    if(identification.length>0){
-       identificationUpload = await uploadImage(identification)
+    if (identification.length > 0) {
+      identificationUpload = await uploadImage(identification)
     }
     const newUserProfile = await createUserProfile(
       req.user.id,
@@ -156,8 +167,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       email,
       fullName,
       entity
-
-
     );
     if (!newUserProfile) {
       return res.status(401).json("failed to  update profile")

@@ -21,7 +21,6 @@ const profileSchema = new Schema(
     idNumber: {
       type: String,
       unique:true,
-      required: true,
     },
     fullName: {
       type: String,
@@ -33,7 +32,6 @@ const profileSchema = new Schema(
     },
     identification: {
       type: String,
-      required: false,
     },
     // kraCertificate: {
     //   type: String,
@@ -49,7 +47,6 @@ const profileSchema = new Schema(
     },
     email: {
       type: String,
-      required: false,
     },
     status: {
       type: String,
