@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const transactionSchema = new Schema({
-    userId: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -14,6 +14,7 @@ const transactionSchema = new Schema({
     transactionType: {
         type: String,
         enum: ['deposit', 'withdrawal'],
+        default: 'deposit',
         required: true
     },
     transactionId: {
@@ -29,6 +30,18 @@ const transactionSchema = new Schema({
     transactionDate: {
         type: Date,
         default: Date.now
+    },
+    note: {
+        type: String,
+        default: ''
+    },
+    mpesaReceiptID: {
+        type: String,
+        default: ''
+    },
+    phoneNumber: {
+        type: String,
+        default: ''
     }
 }, { timestamps: true });
 

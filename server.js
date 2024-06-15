@@ -10,6 +10,8 @@ const publicPropertyRoute = require("./routes/public/property/route")
 const resetPasswordByPhoneNumber = require("./routes/passwordresetphonewithNumber/route")
 const mpesaRoute = require('./routes/mpesa/route');
 const smildeIDRoute = require('./routes/kyc/route')
+const transaction = require('./routes/transactions/route')
+const wallet = require('./routes/transactions/route')
 
 require('dotenv').config();
 const bodyParser = require("body-parser");
@@ -53,6 +55,8 @@ App.use("/api/resetPassword", resetSendPassword);
 App.use("/api/resetPasswordPhoneNumber", resetPasswordByPhoneNumber);
 App.use("/api/mpesa", mpesaRoute)
 App.use("/api/smileid", smildeIDRoute)
+App.use("/api/transactions", transaction)
+App.use("/api/wallet", wallet)
 
 // Server Check
 App.use('/health', (req, res) => res.json({ message: 'Server is Running!' }))

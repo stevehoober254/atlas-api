@@ -3,6 +3,9 @@ require('dotenv').config();
 const axios = require('axios');
 const { parsePhoneNumber, getNumberFrom } = require('awesome-phonenumber');
 
+const Transaction = require('../../Models/transaction');
+
+
 const { MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET, MPESA_SHORT_CODE, MPESA_PASSKEY } = process.env;
 
 // Function to get Mpesa Access Token
@@ -24,7 +27,7 @@ const getMpesaToken = asyncHandler(async (req, res) => {
 
 // Function to initiate Mpesa STK Push
 const initiateSTKPush = asyncHandler(async (req, res) => {
-    const { phoneNumber, amount } = req.body;
+    const { phoneNumber, amount, user_id } = req.body;
 
     const formattedNumber = formatPhoneNumber(phoneNumber)
 
@@ -56,6 +59,15 @@ const initiateSTKPush = asyncHandler(async (req, res) => {
             }
         });
         // create a transaction record
+        const { Body } = response.data;
+        const { stkCallback } = Body;
+        const { CheckoutRequestID } = stkCallback;
+        await Transaction.create({
+            user: user_id,
+            transactionId: CheckoutRequestID,
+            amount: amount,
+            phoneNumber: phoneNumber
+        })
 
         // return response
         res.status(200).json({ message: 'STK Push initiated successfully', response: response.data });
@@ -70,34 +82,58 @@ const initiateSTKPush = asyncHandler(async (req, res) => {
 const mpesaCallback = asyncHandler(async (req, res) => {
     const { Body } = req.body;
     const { stkCallback } = Body;
-    const { ResultCode, ResultDesc, CallbackMetadata } = stkCallback;
+    const { ResultCode, ResultDesc, CallbackMetadata, CheckoutRequestID } = stkCallback;
+
+    const metadata = CallbackMetadata.Item;
+    const amount = metadata.find(item => item.Name === 'Amount').Value;
+    const transactionId = metadata.find(item => item.Name === 'MpesaReceiptNumber').Value;
+    const transaction = await Transaction.findOne({ transactionId: CheckoutRequestID });
+
 
     if (ResultCode === 0) {
-        const metadata = CallbackMetadata.Item;
-        const amount = metadata.find(item => item.Name === 'Amount').Value;
-        const phoneNumber = metadata.find(item => item.Name === 'PhoneNumber').Value;
-        const transactionId = metadata.find(item => item.Name === 'MpesaReceiptNumber').Value;
-
         try {
-
             // update transaction
-            // update user wallet
-
-            // Assuming User model has a method to update wallet and it uses phoneNumber to identify the user
-            const user = await User.findOne({ phoneNumber });
-            if (user) {
-                user.wallet += amount;
-                await user.save();
-                res.status(200).json({ message: 'Wallet updated successfully', transactionId });
+            if (transaction) {
+                transaction.status = 'success';
+                transaction.mpesaReceiptID = transactionId;
+                await transaction.save();
+                const userWallet = await Wallet.findOne({ user: transaction.user });
+                if (userWallet) {
+                    userWallet.balance += amount;
+                    await userWallet.save();
+                } else {
+                    console.log('Wallet not found for the user');
+                }
             } else {
-                res.status(404).json({ message: 'User not found' });
+                console.log('Transaction not found');
             }
         } catch (error) {
-            res.status(500).json({ message: 'Error updating user wallet', error: error.message });
+            console.error(error)
+            res.status(200)
         }
-    } else {
-        res.status(400).json({ message: `Transaction failed with message: ${ResultDesc}` });
     }
+    if (ResultCode === 1) {
+        console.log('Insufficient funds for the transaction.');
+        if (transaction) {
+            transaction.status = 'failed';
+            transaction.note = "Insufficient funds"
+            await transaction.save();
+        }
+    }
+    if (ResultCode === 1032) {
+        console.log('Canceled by user.');
+        if (transaction) {
+            transaction.status = 'failed';
+            transaction.note = "Canceled"
+            await transaction.save();
+        }
+    }
+    if (transaction) {
+        transaction.status = 'failed';
+        transaction.note = "Timed out"
+        await transaction.save();
+    }
+    res.status(200)
 });
 
 

@@ -34,10 +34,9 @@ const registerUser = asyncHandler(async (req, res) => {
     );
 
     try {
-      const dataToSave = await data.save();
-      console.log('Saved data:', dataToSave);
+      console.log('Registered user:', data);
       const newUserProfile = await createUserProfile(
-        dataToSave.id,
+        data._id,
         '',
         '',
         '0x8787STEWV545447448484848DDAJWWBWEVFE',

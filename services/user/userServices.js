@@ -1,15 +1,20 @@
 const User = require('../../Models/User');
 const Profile = require("../../Models/Profile")
+const Wallet = require("../../Models/Wallet")
 
 const createUser = async (passwordHash, fullName, role, phoneNumber, entity) => {
-    const data = new User({
+    const user = await User.create({
         password: passwordHash,
         fullName: fullName,
         role: role,
         phoneNumber: phoneNumber,
         entity: entity,
     });
-    return data;
+    await Wallet.create({
+        balance: 0,
+        user: user._id
+    })
+    return user;
 }
 
 const getUserbyPhoneNumber = async (phoneNumber) => {
