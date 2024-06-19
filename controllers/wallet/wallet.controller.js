@@ -4,6 +4,8 @@ const asyncHandler = require('express-async-handler');
 const getUserWallet = asyncHandler(async (req, res) => {
     const { user_id } = req.params;
 
+    console.log('USER', user_id)
+
     try {
         const wallet = await Wallet.findOne({ user: user_id });
 

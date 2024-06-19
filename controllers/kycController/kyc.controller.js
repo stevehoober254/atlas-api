@@ -1,7 +1,10 @@
 const asyncHandler = require("express-async-handler");
 require('dotenv').config();
 const axios = require('axios');
-const SmileID = require('smile-identity-core')
+const SmileID = require('smile-identity-core');
+const User = require("../../Models/User");
+const Profile = require("../../Models/Profile");
+const { sendEmailUsingTemplate } = require("../../utils/sendgrid");
 
 const PARTNER_ID = process.env.SMILE_ID_PARTNER_ID;
 const DEFAULT_CALLBACK = process.env.SMILE_ID_CALLBACK_URL;
@@ -80,5 +83,67 @@ const smileIDCallback = asyncHandler(async (req, res) => {
 
 })
 
+function compareFullNames(name1, name2) {
+    // Convert both names to lowercase and split them into word sets
+    const name1Set = new Set(name1.toLowerCase().split(/\s+/));
+    const name2Set = new Set(name2.toLowerCase().split(/\s+/));
 
-module.exports = { smileIDCallback, verifyIDNumber, verifyKRANumber }
+    // Check if all words in one set are present in the other (ignoring order)
+    return name1Set.size === name2Set.size && [...name1Set].every(word => name2Set.has(word));
+}
+
+// verify user based on full name and id number
+const verifyUserByNameAndID = async (user_id, fullName, idNumber, email) => {
+    const id_info = {
+        country: 'KE', // The country where ID document was issued
+        id_type: 'NATIONAL_ID', // The ID document type
+        id_number: idNumber
+    };
+    const connection = new SmileID.IDApi(
+        PARTNER_ID,
+        API_KEY,
+        SID_SERVER,
+    )
+    const result = await connection.submit_job(
+        partner_params,
+        id_info
+    );
+    const ResultCode = result.ResultCode;
+    if (ResultCode === "1012") {
+        const IDNames = result.FullName;
+
+        let failed_email_template_id = process.env.SENDGRID_VERIFICATION_FAILED_TEMPLATE_ID;
+        let success_email_template_id = process.env.SENDGRID_VERIFICATION_SUCCESS_TEMPLATE_ID;
+
+        if (compareFullNames(fullName, IDNames)) {
+            console.log('user to update', user_id)
+            const user = await Profile.findOneAndUpdate(
+                { user: user_id },
+                {
+                    $set: {
+                        status: "verified",
+                    }
+                }
+            );
+            console.log(user);
+            // send verification success email
+            sendEmailUsingTemplate(email, success_email_template_id)
+                .then(response => {
+                    console.log(response);
+                }).catch((err) => {
+                    console.error(err);
+                });
+        } else {
+            // send verification fail email
+            sendEmailUsingTemplate(email, failed_email_template_id)
+                .then(response => {
+                    console.log(response);
+                }).catch((err) => {
+                    console.error(err);
+                });
+        }
+    }
+}
+
+
+module.exports = { smileIDCallback, verifyIDNumber, verifyKRANumber, verifyUserByNameAndID }

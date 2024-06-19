@@ -39,6 +39,31 @@ const  countTotalEnlistedProperties=async ()=>{
    return count;
 }
 
+// verify property
+const verifyProperty = async(property_id)=>{
+
+    try{
+        const newPropertyUpdate = await  EnlistProperty.findByIdAndUpdate( property_id,{$set:{status:"verified"}},{new:true});
+        return newPropertyUpdate;
+
+    }catch(err){
+        return null;
+
+    }
+}
+// cancel verification property
+const cancelPropertyVerification = async(property_id)=>{
+
+    try{
+        const newPropertyUpdate = await  EnlistProperty.findByIdAndUpdate( property_id,{$set:{status:"rejected"}},{new:true});
+        return newPropertyUpdate;
+
+    }catch(err){
+        return null;
+
+    }
+}
+
 
 
 
@@ -46,5 +71,7 @@ const  countTotalEnlistedProperties=async ()=>{
 module.exports ={
     userEnlistProperty,
     getAllEnlistedProperties,
-    countTotalEnlistedProperties
+    countTotalEnlistedProperties,
+    verifyProperty,
+    cancelPropertyVerification,
 }

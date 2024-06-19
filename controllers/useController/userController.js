@@ -13,7 +13,9 @@ const { hashPassword, compareHashPassword } = require("../../hooks/hashPassword"
 const { generateAccessToken, generateRefreshToken } = require("../../hooks/generateJWTtokens")
 const { getUserbyPhoneNumber, getUserProfile, createUser, createUserProfile, updateUserPhoneNumber, updateProfile, checkuserProfile, searchById, getPersonalUserProfile, getAllUser } = require("../../services/user/userServices");
 const { use } = require("../../routes/public/property/route");
-const { uploadImage } = require("../../upload/uploadDocuments")
+const { uploadImage } = require("../../upload/uploadDocuments");
+const { verifyUserByNameAndID } = require("../kycController/kyc.controller");
+const Profile = require("../../Models/Profile");
 /**todo user controller to auth , delete user,create, userController*/
 // Register a user
 const registerUser = asyncHandler(async (req, res) => {
@@ -132,10 +134,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const isProfileExists = await checkuserProfile(req.user.id);
     if (isProfileExists) {
       let identificationUpload = ""
-      if (identification.startsWith('http') || identification.startsWith('https')) {
-        identificationUpload = await uploadImage(identification)
-      } else {
+      if (identification.startsWith('https')) {
         identificationUpload = identification
+      } else {
+        identificationUpload = await uploadImage(identification)
       }
       const newUserProfileupdate = await updateProfile(
         req.user.id,
@@ -147,9 +149,21 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         fullName,
         entity
       );
+
       if (!newUserProfileupdate) {
         return res.status(401).json("failed to  update profile")
       }
+
+      const userProfile = await Profile.findOne({ user: req.user.id });
+      console.log(userProfile)
+      if (userProfile.status !== 'verified') {
+        if (fullName && idNumber && email) {
+          await verifyUserByNameAndID(req.user.id, fullName, idNumber, email)
+        }
+      } else {
+        console.log('Did not verify');
+      }
+
       return res.status(200).json({ message: "update successively" })
     }
 

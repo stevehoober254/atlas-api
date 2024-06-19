@@ -75,9 +75,6 @@ const verifyPropertyForProcessing = async(property_id)=>{
         return null;
 
     }
-    
-   
-    
 }
 
 //check if property is verified

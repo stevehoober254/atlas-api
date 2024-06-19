@@ -1,7 +1,7 @@
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const sendEmailUsingTemplate = async (to, templateId, dynamicTemplateData) => {
+const sendEmailUsingTemplate = async (to, templateId, dynamicTemplateData = {}) => {
     const msg = {
         to,
         from: 'no-reply@atlas-ke.net', // Use your verified SendGrid email
@@ -19,6 +19,7 @@ const sendEmailUsingTemplate = async (to, templateId, dynamicTemplateData) => {
         }
     }
 };
+
 
 module.exports = { sendEmailUsingTemplate };
 
