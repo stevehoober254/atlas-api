@@ -11,7 +11,7 @@ const resetPasswordByPhoneNumber = require("./routes/passwordresetphonewithNumbe
 const mpesaRoute = require('./routes/mpesa/route');
 const smildeIDRoute = require('./routes/kyc/route')
 const transaction = require('./routes/transactions/route')
-const wallet = require('./routes/transactions/route')
+const wallet = require('./routes/wallet/route')
 
 require('dotenv').config();
 const bodyParser = require("body-parser");

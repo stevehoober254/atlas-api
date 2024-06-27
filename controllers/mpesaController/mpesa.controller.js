@@ -4,6 +4,7 @@ const axios = require('axios');
 const { parsePhoneNumber, getNumberFrom } = require('awesome-phonenumber');
 
 const Transaction = require('../../Models/transaction');
+const Wallet = require("../../Models/Wallet");
 
 
 const { MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET, MPESA_SHORT_CODE, MPESA_PASSKEY } = process.env;
@@ -59,9 +60,8 @@ const initiateSTKPush = asyncHandler(async (req, res) => {
             }
         });
         // create a transaction record
-        const { Body } = response.data;
-        const { stkCallback } = Body;
-        const { CheckoutRequestID } = stkCallback;
+        console.log('response', response.data);
+        const { CheckoutRequestID } = response.data;
         await Transaction.create({
             user: user_id,
             transactionId: CheckoutRequestID,
@@ -81,6 +81,7 @@ const initiateSTKPush = asyncHandler(async (req, res) => {
 // Mpesa callback 
 const mpesaCallback = asyncHandler(async (req, res) => {
     const { Body } = req.body;
+    console.log('Mpesa Callback Body', Body);
     const { stkCallback } = Body;
     const { ResultCode, ResultDesc, CallbackMetadata, CheckoutRequestID } = stkCallback;
 

@@ -10,9 +10,17 @@ const getUserWallet = asyncHandler(async (req, res) => {
         const wallet = await Wallet.findOne({ user: user_id });
 
         if (!wallet) {
-            return res.status(404).json({
-                success: false,
-                message: 'Wallet not found'
+            const newWallet = new Wallet({
+                user: user_id,
+                balance: 0
+            });
+
+            await newWallet.save();
+
+            return res.status(201).json({
+                success: true,
+                message: 'Wallet created successfully',
+                data: newWallet
             });
         }
 
