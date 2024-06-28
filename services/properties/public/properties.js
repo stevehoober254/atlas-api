@@ -25,18 +25,18 @@ const userEnlistProperty = async (userId, propertyDetails) => {
 };
 //public
 const getAllUserEnlistedProperties = async (user_id) => {
-    
+
     try {
         const allUserListedProperties = await EnlistProperty.find({ user: user_id }).exec();
         return allUserListedProperties;
     } catch (error) {
-       
+
         return error;
     }
 };
 
 //updatenewPropertyOwner
-const updatePropertyNewOwner = async(property_id, newOwner_id, newOwner_Name) => {
+const updatePropertyNewOwner = async (property_id, newOwner_id, newOwner_Name) => {
     try {
         const newOwnerUpdate = await EnlistProperty.findByIdAndUpdate(property_id, {
             $set: {
@@ -65,13 +65,13 @@ const checkIfPropertyExists = async (landRefNumber) => {
 
 //verify property for processing
 
-const verifyPropertyForProcessing = async(property_id)=>{
+const verifyPropertyForProcessing = async (property_id) => {
 
-    try{
-        const newPropertyUpdate = await  EnlistProperty.findByIdAndUpdate( property_id,{$set:{status:"processing"}},{new:true});
+    try {
+        const newPropertyUpdate = await EnlistProperty.findByIdAndUpdate(property_id, { $set: { status: "processing" } }, { new: true });
         return newPropertyUpdate;
 
-    }catch(err){
+    } catch (err) {
         return null;
 
     }
@@ -80,52 +80,52 @@ const verifyPropertyForProcessing = async(property_id)=>{
 //check if property is verified
 
 const isPropertyVerified = async (landReferenceNumber) => {
-    const property = await EnlistProperty.findOne({titleLR: landReferenceNumber,status:"verified"}).exec();
+    const property = await EnlistProperty.findOne({ titleLR: landReferenceNumber, status: "verified" }).exec();
     return !!property;
 };
 
 //check if  a user owns a particular property
-const doesUserOwnProperty = async (landReferenceNumber,user_Id)=>{
-    const  ownerShipStatus=await  EnlistProperty.findOne({titleLR: landReferenceNumber,user: user_Id}).exec();
-    return !! ownerShipStatus;
+const doesUserOwnProperty = async (landReferenceNumber, user_Id) => {
+    const ownerShipStatus = await EnlistProperty.findOne({ titleLR: landReferenceNumber, user: user_Id }).exec();
+    return !!ownerShipStatus;
 }
 
 //search property by title number only user properties
-const searchPropertyByTitleNumber = async(landReferenceNumber)=>{
+const searchPropertyByTitleNumber = async (landReferenceNumber) => {
 
-    const propertyTitle = await EnlistProperty.findOne({titleLR:landReferenceNumber},{_id:1,titleLR:1}).select("titleLR").exec()
+    const propertyTitle = await EnlistProperty.findOne({ titleLR: landReferenceNumber }, { _id: 1, titleLR: 1 }).select("titleLR").exec()
 
     return propertyTitle;
 }
 
 //search property by title and returns all the fields
-const searchProperty = async(landReferenceNumber)=>{
+const searchProperty = async (landReferenceNumber) => {
 
-    const property = await EnlistProperty.findOne({titleLR:landReferenceNumber}).exec()
+    const property = await EnlistProperty.findOne({ titleLR: landReferenceNumber }).exec()
 
     return property;
 }
 
 //update property
 
-const updateProperty = async(property_id,newSize)=>{
-    const property = await EnlistProperty.findOneAndUpdate({_id:property_id},{$set:{sizeHa:newSize}},{new:true}).exec();
+const updateProperty = async (property_id, newSize) => {
+    const property = await EnlistProperty.findOneAndUpdate({ _id: property_id }, { $set: { sizeHa: newSize } }, { new: true }).exec();
 
     return !!property;
 
 }
 
 //get the first 10 properties
-const getverifiedProperties =  async()=>{
-    const property = await EnlistProperty.find({status:'verified'}).select(["sizeHa",'titleLR','propertyImage']).limit(10).exec();
+const getverifiedProperties = async () => {
+    const property = await EnlistProperty.find({ status: 'verified' }).limit(10).exec();
 
     return property;
 
 }
 
 //get All properties verified
-const getAllverifiedProperties =  async()=>{
-    const property = await EnlistProperty.find({status:'verified'}).exec();
+const getAllverifiedProperties = async () => {
+    const property = await EnlistProperty.find({ status: 'verified' }).exec();
 
     return property;
 

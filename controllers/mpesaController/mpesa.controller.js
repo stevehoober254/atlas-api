@@ -91,51 +91,124 @@ const mpesaCallback = asyncHandler(async (req, res) => {
     const transaction = await Transaction.findOne({ transactionId: CheckoutRequestID });
 
 
-    if (ResultCode === 0) {
-        try {
-            // update transaction
-            if (transaction) {
-                transaction.status = 'success';
-                transaction.mpesaReceiptID = transactionId;
-                await transaction.save();
-                const userWallet = await Wallet.findOne({ user: transaction.user });
-                if (userWallet) {
-                    userWallet.balance += amount;
-                    await userWallet.save();
-                } else {
-                    console.log('Wallet not found for the user');
-                }
-            } else {
-                console.log('Transaction not found');
-            }
-        } catch (error) {
-            console.error(error)
-            res.status(200)
-        }
-    }
-    if (ResultCode === 1) {
-        console.log('Insufficient funds for the transaction.');
-        if (transaction) {
-            transaction.status = 'failed';
-            transaction.note = "Insufficient funds"
-            await transaction.save();
-        }
-    }
-    if (ResultCode === 1032) {
-        console.log('Canceled by user.');
-        if (transaction) {
-            transaction.status = 'failed';
-            transaction.note = "Canceled"
-            await transaction.save();
-        }
-    }
-    if (transaction) {
-        transaction.status = 'failed';
-        transaction.note = "Timed out"
-        await transaction.save();
-    }
-    res.status(200)
+    await handleTransactionResult(ResultCode, transactionId, amount, transaction, res);
+
+    // if (ResultCode === 0) {
+    //     try {
+    //         // update transaction
+    //         if (transaction) {
+    //             transaction.status = 'success';
+    //             transaction.mpesaReceiptID = transactionId;
+    //             await transaction.save();
+    //             const userWallet = await Wallet.findOne({ user: transaction.user });
+    //             if (userWallet) {
+    //                 userWallet.balance += amount;
+    //                 await userWallet.save();
+    //                 return res.status(200)
+    //             }
+    //         } else {
+    //             console.log('Transaction not found');
+    //             return res.status(400).json({message:'Transaction Not found'})
+    //         }
+    //     } catch (error) {
+    //         console.error(error)
+    //         res.status(200).json(error)
+    //     }
+    // }
+    // if (ResultCode === 1) {
+    //     console.log('Insufficient funds for the transaction.');
+    //     if (transaction) {
+    //         transaction.status = 'failed';
+    //         transaction.note = "Insufficient funds"
+    //         await transaction.save();
+    //         return res.status(200)
+    //     }
+    // }
+    // if (ResultCode === 1032) {
+    //     console.log('Canceled by user.');
+    //     if (transaction) {
+    //         transaction.status = 'failed';
+    //         transaction.note = "Canceled"
+    //         await transaction.save();
+    //         return res.status(200)
+    //     }
+    // }
+
+    // // default
+    // if (transaction) {
+    //     transaction.status = 'failed';
+    //     transaction.note = "Timed out"
+    //     await transaction.save();
+    //     return res.status(200)
+    // }
+
 });
+
+
+async function handleTransactionResult(ResultCode, transactionId, amount, transaction, res) {
+    try {
+        if (ResultCode === 0) {
+            // Update transaction with success status and Mpesa receipt ID
+            transaction.status = 'success';
+            transaction.mpesaReceiptID = transactionId;
+            await transaction.save();
+
+            // Update user wallet balance atomically
+            const updateResult = await Wallet.findOneAndUpdate(
+                { user: transaction.user },
+                { $inc: { balance: amount } },
+                { new: true } // Return updated document
+            );
+
+            if (!updateResult) {
+                throw new Error('User wallet not found'); // Throw specific error
+            }
+
+            return res.status(200).send(); // Use send() for cleaner response
+        } else {
+            const status = ResultCode === 1 ? 'failed (Insufficient funds)' :
+                ResultCode === 1032 ? 'failed (Canceled by user)' :
+                    'failed (Unknown error)';
+            transaction.status = status;
+            transaction.note = status.split(' ')[1]; // Extract failure reason
+            await transaction.save();
+
+            const statusCode = ResultCode === 1 ? 400 : 200; // Differentiate error codes
+            return res.status(statusCode).json({ message: status });
+        }
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        return res.status(500).json({ message: 'Internal Server Error' }); // Generic error for client
+    }
+}
+
+// {
+//     stkCallback: {
+//       MerchantRequestID: '7071-4170-a0e4-8345632bad441299758',
+//       CheckoutRequestID: 'ws_CO_27062024211217367705500067',
+//       ResultCode: 0,
+//       ResultDesc: 'The service request is processed successfully.',
+//       CallbackMetadata: { Item: [Array] }
+//     }
+//   }
+
+async function confirmPayment(req, res) {
+    const { mpesaCode } = req.body;
+    try {
+        const transaction = await Transaction.findOne({ mpesaReceiptID: mpesaCode });
+        if (!transaction) {
+            return res.status(404).json({ message: 'Transaction not found' });
+        }
+        if (transaction.status !== 'success') {
+            return res.status(400).json({ message: 'Transaction status is not successful' });
+        }
+        return res.status(200).json({ message: 'Transaction found and status is successful' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 
 
 // format phone number
@@ -159,4 +232,4 @@ function formatPhoneNumber(phoneNumber) {
 }
 
 
-module.exports = { getMpesaToken, initiateSTKPush, mpesaCallback };
+module.exports = { getMpesaToken, initiateSTKPush, mpesaCallback, confirmPayment };
